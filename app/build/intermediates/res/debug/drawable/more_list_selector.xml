@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item android:drawable="@color/gray_light" android:state_selected="true"></item>
-    <item android:drawable="@color/gray_darker" android:state_pressed="true"></item>
-    <item android:drawable="@color/white"></item>
-
-</selector><!-- From: file:/E:/WorkSpace/GabrielHornAndroid/app/src/main/res/drawable/more_list_selector.xml -->
