@@ -5,19 +5,19 @@
     android:layout_height="match_parent"
     android:background="#dddddd"
     android:orientation="vertical"
-    tools:ignore="HardcodedText" >
+    tools:ignore="HardcodedText">
 
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fillViewport="true" >
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fillViewport="true"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tvMyRewardsMore"
@@ -32,7 +32,7 @@
                 android:text="My Rewards Card"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/black"
-                android:layout_marginTop="15dp"/>
+                android:layout_marginTop="15dp" />
 
             <View
                 android:layout_width="match_parent"
@@ -90,7 +90,7 @@
                 android:text="Call Us"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/black"
-                android:layout_marginTop="15dp"/>
+                android:layout_marginTop="15dp" />
 
             <View
                 android:layout_width="match_parent"
@@ -165,7 +165,7 @@
                 android:text="About this app"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/black"
-                android:layout_marginTop="15dp"/>
+                android:layout_marginTop="15dp" />
 
             <View
                 android:layout_width="match_parent"

@@ -11,23 +11,19 @@ import com.parse.ParseObject;
 /**
  * Created by Usama on 8/21/14.
  */
-public class ParseImageCacheAdapter<T extends ParseObject> extends BaseParseArrayAdapter<T>
-{
+public class ParseImageCacheAdapter<T extends ParseObject> extends BaseParseArrayAdapter<T> {
     private LruCache<String, Bitmap> bitmapCache;
 
-    public ParseImageCacheAdapter(Context context, QueryFactory query, int itemViewResource)
-    {
+    public ParseImageCacheAdapter(Context context, QueryFactory query, int itemViewResource) {
         super(context, query, itemViewResource);
         this.bitmapCache = MemoryCacheHelper.getDefaultBitmapCache();
     }
 
-    public LruCache<String, Bitmap> getBitmapCache()
-    {
+    public LruCache<String, Bitmap> getBitmapCache() {
         return bitmapCache;
     }
 
-    public void setBitmapCache(LruCache<String, Bitmap> bitmapCache)
-    {
+    public void setBitmapCache(LruCache<String, Bitmap> bitmapCache) {
         this.bitmapCache = bitmapCache;
     }
 }

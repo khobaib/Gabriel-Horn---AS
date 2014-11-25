@@ -16,10 +16,8 @@ import com.devotify.gabrielhorn.utility.FontUtils;
 import com.devotify.gabrielhorn.utility.Fonts;
 import com.parse.ParseUser;
 
-public class FragmentMore extends Fragment implements OnClickListener, LogInStateListener
-{
-    public interface MoreItemClickedListener
-    {
+public class FragmentMore extends Fragment implements OnClickListener, LogInStateListener {
+    public interface MoreItemClickedListener {
         public void onCallUsMenuClicked();
 
         public void onEmailUsMenuClicked();
@@ -43,22 +41,19 @@ public class FragmentMore extends Fragment implements OnClickListener, LogInStat
     private LogInStateListener logInStateListener;
     private TextView loginTextView;
 
-    public static Fragment newInstance()
-    {
+    public static Fragment newInstance() {
         return new FragmentMore();
     }
 
     @Override
-    public void onAttach(Activity activity)
-    {
+    public void onAttach(Activity activity) {
         super.onAttach(activity);
         moreItemClickedListener = (MoreItemClickedListener) activity;
         logInStateListener = (LogInStateListener) activity;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rv = inflater.inflate(R.layout.frag_more_static, container, false);
         rv.findViewById(R.id.tvMyRewardsMore).setOnClickListener(this);
 
@@ -79,7 +74,7 @@ public class FragmentMore extends Fragment implements OnClickListener, LogInStat
 
         View editStoreLocationsView = rv.findViewById(R.id.tvEditLocationMore);
         if (ParseUser.getCurrentUser() != null)
-            editStoreLocationsView.setVisibility(ParseUser.getCurrentUser().getBoolean("isAdmin") ? View.VISIBLE : View.INVISIBLE);
+            editStoreLocationsView.setVisibility(ParseUser.getCurrentUser().getBoolean("isAdmin") ? View.VISIBLE : View.GONE);
         else
             editStoreLocationsView.setVisibility(View.GONE);
 
@@ -88,21 +83,16 @@ public class FragmentMore extends Fragment implements OnClickListener, LogInStat
     }
 
     @Override
-    public void onClick(View v)
-    {
-        switch (v.getId())
-        {
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.tvMyRewardsMore:
                 moreItemClickedListener.onRewardsClicked();
                 return;
             case R.id.tvLogOutMore:
-                if (ParseUser.getCurrentUser() != null)
-                {
+                if (ParseUser.getCurrentUser() != null) {
                     ParseUser.getCurrentUser().logOut();
                     logInStateListener.onLogInToggled(false);
-                }
-                else
-                {
+                } else {
                     logInStateListener.onLogInToggled(true);
                 }
                 return;
@@ -135,13 +125,11 @@ public class FragmentMore extends Fragment implements OnClickListener, LogInStat
     }
 
     @Override
-    public void onLogInToggled(boolean isLoggedIn)
-    {
+    public void onLogInToggled(boolean isLoggedIn) {
         updateLoginState();
     }
 
-    public void updateLoginState()
-    {
+    public void updateLoginState() {
         if (ParseUser.getCurrentUser() == null)
             loginTextView.setText("Log in");
         else

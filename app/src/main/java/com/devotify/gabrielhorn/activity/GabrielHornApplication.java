@@ -11,14 +11,12 @@ import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.SaveCallback;
 
-public class GabrielHornApplication extends Application
-{
-    public static final String CHANNEL_NAME = "PushGabrielHorn";
+public class GabrielHornApplication extends Application {
+    public static final String CHANNEL_NAME = "PushYBR";
     private static final String APP_ID = "b0iV7zeWFXFN0BcAd5gv3OjAYjWQXtbI5rsdJmU3", CLIENT_KEY = "UKSHdFci5UMlEmawuAfSPVEbBKGfVsy35B4K34C8";
 
     @Override
-    public void onCreate()
-    {
+    public void onCreate() {
         super.onCreate();
 
         ParseObject.registerSubclass(Post.class);
@@ -27,13 +25,10 @@ public class GabrielHornApplication extends Application
 
         Parse.enableLocalDatastore(getApplicationContext());
         Parse.initialize(this, APP_ID, CLIENT_KEY);
-        ParsePush.subscribeInBackground(CHANNEL_NAME, new SaveCallback()
-        {
+        ParsePush.subscribeInBackground(CHANNEL_NAME, new SaveCallback() {
             @Override
-            public void done(ParseException e)
-            {
-                if (e != null)
-                {
+            public void done(ParseException e) {
+                if (e != null) {
                     e.printStackTrace();
                 }
             }

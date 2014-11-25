@@ -11,27 +11,23 @@ import java.util.HashMap;
  *         are stored in a hashmap, where an int is the id of the requested UI element within the row and also functions as a key that returns the
  *         cached view.
  */
-public class ViewHolder
-{
+public class ViewHolder {
     private HashMap<Integer, View> storedViews = new HashMap<Integer, View>();
 
-    public ViewHolder()
-    {
+    public ViewHolder() {
     }
 
     /**
      * @param view The view to add; to reference this view later, simply refer to its id.
      * @return This instance to allow for chaining.
      */
-    public ViewHolder addView(View view)
-    {
+    public ViewHolder addView(View view) {
         int id = view.getId();
         storedViews.put(id, view);
         return this;
     }
 
-    public View getView(int id)
-    {
+    public View getView(int id) {
         return storedViews.get(id);
     }
 }

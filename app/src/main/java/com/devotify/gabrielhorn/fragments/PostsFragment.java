@@ -18,10 +18,8 @@ import com.parse.ParseQueryAdapter;
 
 import java.util.List;
 
-public class PostsFragment extends Fragment
-{
-    public interface FragmentPostItemClickedListener
-    {
+public class PostsFragment extends Fragment {
+    public interface FragmentPostItemClickedListener {
         public void onPostClicked(Post post);
     }
 
@@ -30,53 +28,43 @@ public class PostsFragment extends Fragment
     private SwipeRefreshLayout postsRefreshLayout;
     private FragmentPostItemClickedListener postItemClickedListener;
 
-    public static Fragment newInstance()
-    {
+    public static Fragment newInstance() {
         return new PostsFragment();
     }
 
     @Override
-    public void onAttach(Activity activity)
-    {
+    public void onAttach(Activity activity) {
         super.onAttach(activity);
         postItemClickedListener = (FragmentPostItemClickedListener) activity;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_post, container, false);
         postAdapter = new PostViewListViewAdapter(getActivity());
-        postAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Post>()
-        {
+        postAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Post>() {
             @Override
-            public void onLoading()
-            {
+            public void onLoading() {
             }
 
             @Override
-            public void onLoaded(List<Post> posts, Exception e)
-            {
+            public void onLoaded(List<Post> posts, Exception e) {
                 postsRefreshLayout.setRefreshing(false);
             }
         });
 
         postsRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.post_pull_refresh_view);
-        postsRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
-        {
+        postsRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onRefresh()
-            {
+            public void onRefresh() {
                 postAdapter.loadObjects();
             }
         });
 
         postsListView = (ListView) rootView.findViewById(R.id.list_view_latest_offer);
-        postsListView.setOnItemClickListener(new OnItemClickListener()
-        {
+        postsListView.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id)
-            {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 postItemClickedListener.onPostClicked(postAdapter.getItem(Math.max(0, position - 1))); // Account for the header by subtracting one from the index
             }
         });

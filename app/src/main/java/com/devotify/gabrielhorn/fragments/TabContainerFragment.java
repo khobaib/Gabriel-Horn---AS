@@ -15,21 +15,18 @@ import com.devotify.gabrielhorn.adapter.HomePageSwipeAdapter;
 /**
  * Created by Usama on 10/4/14.
  */
-public class TabContainerFragment extends Fragment
-{
+public class TabContainerFragment extends Fragment {
     private HomePageSwipeAdapter homePageSwipeAdapter;
     private ViewPager homePager;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_tab_container, container, false);
         initUI(rootView);
         return rootView;
     }
 
-    public void initUI(View rootView)
-    {
+    public void initUI(View rootView) {
         homePageSwipeAdapter = new HomePageSwipeAdapter(getChildFragmentManager());
         homePager = (ViewPager) rootView.findViewById(R.id.main_pager);
         homePager.setAdapter(homePageSwipeAdapter);
@@ -43,23 +40,19 @@ public class TabContainerFragment extends Fragment
         tabs.setIndicatorColor(getResources().getColor(R.color.primary_color));
     }
 
-    public HomePageSwipeAdapter getHomePageSwipeAdapter()
-    {
+    public HomePageSwipeAdapter getHomePageSwipeAdapter() {
         return homePageSwipeAdapter;
     }
 
-    public void setHomePageSwipeAdapter(HomePageSwipeAdapter homePageSwipeAdapter)
-    {
+    public void setHomePageSwipeAdapter(HomePageSwipeAdapter homePageSwipeAdapter) {
         this.homePageSwipeAdapter = homePageSwipeAdapter;
     }
 
-    public ViewPager getHomePager()
-    {
+    public ViewPager getHomePager() {
         return homePager;
     }
 
-    public void setHomePager(ViewPager homePager)
-    {
+    public void setHomePager(ViewPager homePager) {
         this.homePager = homePager;
     }
 }

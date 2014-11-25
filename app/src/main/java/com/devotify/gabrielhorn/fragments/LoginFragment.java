@@ -34,8 +34,7 @@ import com.parse.SignUpCallback;
 
 import info.hoang8f.android.segmented.SegmentedGroup;
 
-public class LoginFragment extends Fragment implements RadioGroup.OnCheckedChangeListener
-{
+public class LoginFragment extends Fragment implements RadioGroup.OnCheckedChangeListener {
     private SegmentedGroup loginSegment;
     private RelativeLayout signUpLayout, loginLayout;
     private EditText etEmail, etFirstName, etLastName, etPassword, etEmailLogIn, etPasswordLogin;
@@ -43,21 +42,18 @@ public class LoginFragment extends Fragment implements RadioGroup.OnCheckedChang
     private ProgressDialog pDialog;
     private LogInStateListener onLogInListener;
 
-    public static Fragment newInstance()
-    {
+    public static Fragment newInstance() {
         return new LoginFragment();
     }
 
     @Override
-    public void onAttach(Activity activity)
-    {
+    public void onAttach(Activity activity) {
         super.onAttach(activity);
         onLogInListener = (LogInStateListener) activity;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_login, container, false);
         loginSegment = (SegmentedGroup) v.findViewById(R.id.segmented);
         loginSegment.setTintColor(getResources().getColor(R.color.primary_color));
@@ -71,11 +67,9 @@ public class LoginFragment extends Fragment implements RadioGroup.OnCheckedChang
         etPassword = (EditText) v.findViewById(R.id.et_password);
 
         bSignUp = (Button) v.findViewById(R.id.b_continue);
-        bSignUp.setOnClickListener(new OnClickListener()
-        {
+        bSignUp.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 onSignUpClicked();
             }
         });
@@ -83,20 +77,16 @@ public class LoginFragment extends Fragment implements RadioGroup.OnCheckedChang
         etEmailLogIn = (EditText) v.findViewById(R.id.et_email_login);
         etPasswordLogin = (EditText) v.findViewById(R.id.et_password_log_in);
         bLogin = (Button) v.findViewById(R.id.b_login);
-        bLogin.setOnClickListener(new OnClickListener()
-        {
+        bLogin.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 onLogInClicked();
             }
         });
 
-        v.findViewById(R.id.forgot_password_text_view).setOnClickListener(new OnClickListener()
-        {
+        v.findViewById(R.id.forgot_password_text_view).setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 onForgotPasswordClicked();
             }
         });
@@ -106,10 +96,8 @@ public class LoginFragment extends Fragment implements RadioGroup.OnCheckedChang
         return v;
     }
 
-    public void onSignUpClicked()
-    {
-        if (etEmailLogIn.getText().equals("") || etPasswordLogin.getText().equals(""))
-        {
+    public void onSignUpClicked() {
+        if (etEmailLogIn.getText().equals("") || etPasswordLogin.getText().equals("")) {
             Toast.makeText(getActivity(), "Please fill out all fields", Toast.LENGTH_LONG).show();
             return;
         }
@@ -123,54 +111,42 @@ public class LoginFragment extends Fragment implements RadioGroup.OnCheckedChang
         user.setPassword(etPassword.getText().toString());
         user.put("appCompany", LocalUser.getInstance().getParentCompany());
         user.put("fullName", etFirstName.getText().toString() + " " + etLastName.getText().toString());
-        user.signUpInBackground(new SignUpCallback()
-        {
+        user.signUpInBackground(new SignUpCallback() {
             @Override
-            public void done(ParseException e)
-            {
+            public void done(ParseException e) {
                 pDialog.dismiss();
-                if (e == null)
-                {
+                if (e == null) {
                     ParseObject userData = new ParseObject("UserData");
                     userData.put("user", user);
                     userData.put("appParentCompany", LocalUser.getInstance().getParentCompany());
                     userData.put("rewardPoints", new Integer(0));
-                    userData.saveInBackground(new SaveCallback()
-                    {
+                    userData.saveInBackground(new SaveCallback() {
                         @Override
-                        public void done(ParseException e)
-                        {
-                            if (e != null)
-                            {
+                        public void done(ParseException e) {
+                            if (e != null) {
                                 e.printStackTrace();
                             }
                         }
                     });
-                }
-                else
-                {
+                } else {
                     Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });
     }
 
-    public void onLogInClicked()
-    {
+    public void onLogInClicked() {
         Utils.hideKeyboard(getActivity());
         boolean validationError = false;
         StringBuilder validationErrorMessage = new StringBuilder(getResources().getString(R.string.error_intro));
 
-        if (isEmpty(etEmailLogIn))
-        {
+        if (isEmpty(etEmailLogIn)) {
             validationError = true;
             validationErrorMessage.append(getResources().getString(R.string.error_blank_email));
         }
 
-        if (isEmpty(etPasswordLogin))
-        {
-            if (validationError)
-            {
+        if (isEmpty(etPasswordLogin)) {
+            if (validationError) {
                 validationErrorMessage.append(getResources().getString(R.string.error_join));
             }
             validationError = true;
@@ -178,8 +154,7 @@ public class LoginFragment extends Fragment implements RadioGroup.OnCheckedChang
         }
 
         validationErrorMessage.append(getResources().getString(R.string.error_end));
-        if (validationError)
-        {
+        if (validationError) {
             Toast.makeText(getActivity(), validationErrorMessage.toString(), Toast.LENGTH_LONG).show();
             return;
         }
@@ -189,53 +164,39 @@ public class LoginFragment extends Fragment implements RadioGroup.OnCheckedChang
 
         String email = etEmailLogIn.getText().toString();
         String password = etPasswordLogin.getText().toString();
-        ParseUser.logInInBackground(email, password, new LogInCallback()
-        {
+        ParseUser.logInInBackground(email, password, new LogInCallback() {
             @Override
-            public void done(final ParseUser user, final ParseException logInException)
-            {
+            public void done(final ParseUser user, final ParseException logInException) {
                 if (pDialog.isShowing())
                     pDialog.dismiss();
-                if (logInException == null)
-                {
+                if (logInException == null) {
                     user.getRelation("parentCompanies").add(LocalUser.getInstance().getParentCompany());
                     user.saveInBackground();
 
                     // Find the user data for this user
                     ParseQuery<ParseObject> userDataQuery = new ParseQuery<ParseObject>("UserData");
                     userDataQuery.whereEqualTo("user", user);
-                    userDataQuery.getFirstInBackground(new GetCallback<ParseObject>()
-                    {
+                    userDataQuery.getFirstInBackground(new GetCallback<ParseObject>() {
                         @Override
-                        public void done(ParseObject parseObject, ParseException e)
-                        {
-                            if (e == null)
-                            {
-                                if (getActivity() != null)
-                                {
+                        public void done(ParseObject parseObject, ParseException e) {
+                            if (e == null) {
+                                if (getActivity() != null) {
                                     if (pDialog.isShowing())
                                         pDialog.dismiss();
                                     onUserSignedIn();
                                 }
-                            }
-                            else
-                            {
+                            } else {
                                 // User data is not present because the user is updating his/her app
                                 ParseObject userData = new ParseObject("UserData");
                                 userData.put("user", user);
                                 userData.put("appParentCompany", LocalUser.getInstance().getParentCompany());
                                 userData.put("rewardPoints", Integer.valueOf(0));
-                                userData.saveInBackground(new SaveCallback()
-                                {
+                                userData.saveInBackground(new SaveCallback() {
                                     @Override
-                                    public void done(ParseException e)
-                                    {
-                                        if (e == null)
-                                        {
+                                    public void done(ParseException e) {
+                                        if (e == null) {
                                             onUserSignedIn();
-                                        }
-                                        else
-                                        {
+                                        } else {
                                             e.printStackTrace();
                                         }
                                     }
@@ -243,9 +204,7 @@ public class LoginFragment extends Fragment implements RadioGroup.OnCheckedChang
                             }
                         }
                     });
-                }
-                else
-                {
+                } else {
                     if (getActivity() != null)
                         Toast.makeText(getActivity(), logInException.getMessage(), Toast.LENGTH_LONG).show();
                 }
@@ -254,48 +213,35 @@ public class LoginFragment extends Fragment implements RadioGroup.OnCheckedChang
     }
 
 
-    public void onUserSignedIn()
-    {
+    public void onUserSignedIn() {
         Toast.makeText(getActivity(), "Successfully logged in.", Toast.LENGTH_LONG).show();
         onLogInListener.onLogInToggled(false);
     }
 
-    public void onForgotPasswordClicked()
-    {
+    public void onForgotPasswordClicked() {
         View resetPasswordView = View.inflate(getActivity(), R.layout.forgot_password_layout, null);
         final EditText resetEmailEditText = (EditText) resetPasswordView.findViewById(R.id.forgot_password_edit_text);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Forgot Password?").setView(resetPasswordView);
-        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener()
-        {
+        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i)
-            {
+            public void onClick(DialogInterface dialogInterface, int i) {
                 final String email = resetEmailEditText.getText().toString();
-                if (!email.equals(""))
-                {
-                    ParseUser.requestPasswordResetInBackground(email, new RequestPasswordResetCallback()
-                    {
+                if (!email.equals("")) {
+                    ParseUser.requestPasswordResetInBackground(email, new RequestPasswordResetCallback() {
                         @Override
-                        public void done(ParseException e)
-                        {
-                            if (e == null)
-                            {
-                                if (getActivity() != null)
-                                {
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                if (getActivity() != null) {
                                     Toast.makeText(getActivity(), "Sent reset email to: " + email, Toast.LENGTH_LONG).show();
                                 }
-                            }
-                            else
-                            {
+                            } else {
                                 e.printStackTrace();
                             }
                         }
                     });
-                }
-                else
-                {
+                } else {
                     Toast.makeText(getActivity(), "Please enter a valid email", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -306,10 +252,8 @@ public class LoginFragment extends Fragment implements RadioGroup.OnCheckedChang
     }
 
     @Override
-    public void onCheckedChanged(RadioGroup group, int checkedId)
-    {
-        switch (checkedId)
-        {
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        switch (checkedId) {
             case R.id.rb_signup:
                 signUpLayout.setVisibility(View.VISIBLE);
                 loginLayout.setVisibility(View.GONE);
@@ -321,14 +265,12 @@ public class LoginFragment extends Fragment implements RadioGroup.OnCheckedChang
         }
     }
 
-    private boolean isEmpty(EditText etText)
-    {
+    private boolean isEmpty(EditText etText) {
         return etText.getText().toString().trim().length() <= 0;
     }
 
     @Override
-    public void onDestroyView()
-    {
+    public void onDestroyView() {
         super.onDestroyView();
         if (pDialog != null && pDialog.isShowing())
             pDialog.cancel();

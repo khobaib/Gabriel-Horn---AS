@@ -3,7 +3,7 @@
     android:id="@+id/rl_login"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="5dp" >
+    android:padding="5dp">
 
     <EditText
         android:id="@+id/et_email_login"

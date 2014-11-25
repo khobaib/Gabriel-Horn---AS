@@ -43,8 +43,7 @@ import net.sourceforge.zbar.Symbol;
 
 import java.util.Date;
 
-public class RewardsFragment extends Fragment implements OnItemClickListener, ActivityResultListener
-{
+public class RewardsFragment extends Fragment implements OnItemClickListener, ActivityResultListener {
     private static final int ZBAR_QR_SCANNER_REQUEST = 1;
 
     private RewardListAdapter rewardListadapter;
@@ -54,25 +53,21 @@ public class RewardsFragment extends Fragment implements OnItemClickListener, Ac
 
     private ParseObject userData;
 
-    public RewardsFragment()
-    {
+    public RewardsFragment() {
     }
 
-    public static RewardsFragment newInstance()
-    {
+    public static RewardsFragment newInstance() {
         return new RewardsFragment();
     }
 
     @Override
-    public void onAttach(Activity activity)
-    {
+    public void onAttach(Activity activity) {
         super.onAttach(activity);
         ((RegisterActivityResultListener) activity).registerActivityResultListener(this);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_rewards, container, false);
 
         rewardListadapter = new RewardListAdapter(getActivity(), R.layout.row_list_reward);
@@ -81,11 +76,9 @@ public class RewardsFragment extends Fragment implements OnItemClickListener, Ac
         rewardsListView.setOnItemClickListener(this);
 
         btnScanForStar = (Button) v.findViewById(R.id.btnScanForStar);
-        btnScanForStar.setOnClickListener(new OnClickListener()
-        {
+        btnScanForStar.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 scanAndGetStar();
             }
         });
@@ -98,47 +91,35 @@ public class RewardsFragment extends Fragment implements OnItemClickListener, Ac
         return v;
     }
 
-    private void scanAndGetStar()
-    {
-        if (userData != null)
-        {
-            if (isCameraAvailable())
-            {
+    private void scanAndGetStar() {
+        if (userData != null) {
+            if (isCameraAvailable()) {
                 Date lastScanDate = userData.getDate("qrScanDate");
                 long lastScanTime = lastScanDate != null ? lastScanDate.getTime() : 0;
                 long dt = System.currentTimeMillis() - lastScanTime;
                 long neededScanDuration = LocalUser.getInstance().getParentCompany().getInt("scanInterval");
-                if (dt > neededScanDuration * 1000 || ParseUser.getCurrentUser().getBoolean("isSuperAdmin"))
-                {
+                if (dt > neededScanDuration * 1000 || ParseUser.getCurrentUser().getBoolean("isSuperAdmin")) {
                     Intent intent = new Intent(getActivity(), ZBarScannerActivity.class);
                     intent.putExtra(ZBarConstants.SCAN_MODES, new int[]{Symbol.QRCODE});
                     getActivity().startActivityForResult(intent, ZBAR_QR_SCANNER_REQUEST);
-                }
-                else
-                {
+                } else {
                     long minutes = (neededScanDuration * 1000 - dt) / (1000 * 60);
                     Toast.makeText(getActivity(), "You must wait " + minutes + " minutes before scanning again", Toast.LENGTH_SHORT).show();
                 }
-            }
-            else
-            {
+            } else {
                 Toast.makeText(getActivity(), "Camera Unavailable", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    public boolean isCameraAvailable()
-    {
+    public boolean isCameraAvailable() {
         PackageManager pm = getActivity().getPackageManager();
         return pm.hasSystemFeature(PackageManager.FEATURE_CAMERA);
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        if (resultCode == Activity.RESULT_OK)
-        {
-            if (requestCode == ZBAR_QR_SCANNER_REQUEST)
-            {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == ZBAR_QR_SCANNER_REQUEST) {
                 final ProgressDialog dialog = ProgressDialog.show(getActivity(), "Loading", "Checking reward...");
 
                 String contents = data.getStringExtra(ZBarConstants.SCAN_RESULT);
@@ -149,69 +130,49 @@ public class RewardsFragment extends Fragment implements OnItemClickListener, Ac
                 ParseQuery<ParseObject> qrCodequery = ParseQuery.getQuery(Constants.OBJECT_QRCODE);
                 qrCodequery.whereMatchesQuery("location", locationParentCompanyCheckQuery);
                 qrCodequery.include("location");
-                qrCodequery.getInBackground(contents, new GetCallback<ParseObject>()
-                {
+                qrCodequery.getInBackground(contents, new GetCallback<ParseObject>() {
                     @Override
-                    public void done(final ParseObject qrCodeObject, ParseException e)
-                    {
-                        if (getActivity() != null)
-                        {
+                    public void done(final ParseObject qrCodeObject, ParseException e) {
+                        if (getActivity() != null) {
                             dialog.cancel();
-                            if (e == null)
-                            {
+                            if (e == null) {
                                 final ProgressDialog locationCheckDialog = ProgressDialog.show(getActivity(), "Loading", "Checking your location...");
                                 final ParseObject locationObject = qrCodeObject.getParseObject("location");
-                                ParseGeoPoint.getCurrentLocationInBackground(10000, new LocationCallback()
-                                {
+                                ParseGeoPoint.getCurrentLocationInBackground(10000, new LocationCallback() {
                                     @Override
-                                    public void done(ParseGeoPoint parseGeoPoint, ParseException e)
-                                    {
-                                        if (getActivity() != null && locationCheckDialog != null)
-                                        {
+                                    public void done(ParseGeoPoint parseGeoPoint, ParseException e) {
+                                        if (getActivity() != null && locationCheckDialog != null) {
                                             locationCheckDialog.dismiss();
                                         }
 
-                                        if (e == null)
-                                        {
-                                            if (parseGeoPoint != null)
-                                            {
+                                        if (e == null) {
+                                            if (parseGeoPoint != null) {
                                                 double distanceKilometers = parseGeoPoint.distanceInKilometersTo(locationObject.
                                                         getParseGeoPoint("location"));
                                                 double distanceMeters = distanceKilometers * 1000.0;
 
-                                                if (distanceMeters <= locationObject.getDouble("vicinityRadius"))
-                                                {
+                                                if (distanceMeters <= locationObject.getDouble("vicinityRadius")) {
                                                     int pointsToAward = qrCodeObject.getInt(Constants.POINTS_TO_AWARD);
                                                     userData.put("rewardPoints", userData.getInt("rewardPoints") + pointsToAward);
                                                     userData.put("qrScanDate", new Date());
-                                                    userData.saveInBackground(new SaveCallback()
-                                                    {
+                                                    userData.saveInBackground(new SaveCallback() {
                                                         @Override
-                                                        public void done(ParseException paramParseException)
-                                                        {
+                                                        public void done(ParseException paramParseException) {
                                                             updateRewardsTextView();
                                                         }
                                                     });
-                                                }
-                                                else
-                                                {
+                                                } else {
                                                     Toast.makeText(getActivity(), "You must scan this code in a store to win loyalty points", Toast.LENGTH_SHORT).show();
                                                 }
-                                            }
-                                            else
-                                            {
+                                            } else {
                                                 Toast.makeText(getActivity(), "Error - couldn't fetch your location", Toast.LENGTH_SHORT).show();
                                             }
-                                        }
-                                        else
-                                        {
+                                        } else {
                                             e.printStackTrace();
                                         }
                                     }
                                 });
-                            }
-                            else
-                            {
+                            } else {
                                 Toast.makeText(getActivity(), "Invalid QR code", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -221,44 +182,33 @@ public class RewardsFragment extends Fragment implements OnItemClickListener, Ac
         }
     }
 
-    protected void alert(String message)
-    {
-        try
-        {
+    protected void alert(String message) {
+        try {
             AlertDialog.Builder bld = new AlertDialog.Builder(getActivity());
             bld.setMessage(message);
-            bld.setNeutralButton("Close", new DialogInterface.OnClickListener()
-            {
+            bld.setNeutralButton("Close", new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which)
-                {
+                public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                 }
             });
             bld.create().show();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View v, int position, long id)
-    {
+    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
         Reward reward = rewardListadapter.getItem(position);
-        if (userData.getInt("rewardPoints") < reward.getPointsNeeded())
-        {
+        if (userData.getInt("rewardPoints") < reward.getPointsNeeded()) {
             Toast.makeText(getActivity(), "Sorry! You don't have enough stars.", Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
+        } else {
             showRewardOptionDialog(reward);
         }
     }
 
-    private void updateWonReward(final Reward reward)
-    {
+    private void updateWonReward(final Reward reward) {
         ParseObject rewardWon = new ParseObject("RewardsWon");
         rewardWon.put("wonReward", reward);
         rewardWon.put("winner", ParseUser.getCurrentUser());
@@ -274,23 +224,18 @@ public class RewardsFragment extends Fragment implements OnItemClickListener, Ac
         builder.show();
     }
 
-    private void showRewardOptionDialog(final Reward reward)
-    {
+    private void showRewardOptionDialog(final Reward reward) {
         AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
         alert.setTitle("" + reward.get("name"));
         alert.setMessage("Do you want to use this reward?");
-        alert.setPositiveButton("Redeem", new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface dialog, int whichButton)
-            {
+        alert.setPositiveButton("Redeem", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
                 updateWonReward(reward);
             }
         });
 
-        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface dialog, int whichButton)
-            {
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
                 dialog.dismiss();
             }
         });
@@ -298,24 +243,19 @@ public class RewardsFragment extends Fragment implements OnItemClickListener, Ac
         alert.show();
     }
 
-    public void updateRewardsTextView()
-    {
+    public void updateRewardsTextView() {
         if (userData != null)
             userRewardPointsTextView.setText(Integer.toString(userData.getInt("rewardPoints")));
     }
 
-    public void initUserData()
-    {
+    public void initUserData() {
         ParseQuery<ParseObject> userDataQuery = new ParseQuery<ParseObject>("UserData");
         userDataQuery.whereEqualTo("user", ParseUser.getCurrentUser());
         userDataQuery.whereEqualTo("appParentCompany", LocalUser.getInstance().getParentCompany());
-        userDataQuery.getFirstInBackground(new GetCallback<ParseObject>()
-        {
+        userDataQuery.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
-            public void done(ParseObject parseObject, ParseException e)
-            {
-                if (getActivity() != null)
-                {
+            public void done(ParseObject parseObject, ParseException e) {
+                if (getActivity() != null) {
                     userData = parseObject;
                     updateRewardsTextView();
                 }

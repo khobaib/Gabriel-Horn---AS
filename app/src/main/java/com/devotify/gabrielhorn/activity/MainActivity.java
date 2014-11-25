@@ -54,8 +54,7 @@ public class MainActivity extends ActionBarActivity implements PostsFragment.Fra
     private long startSplashTime;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.splash_screen);
@@ -63,13 +62,10 @@ public class MainActivity extends ActionBarActivity implements PostsFragment.Fra
         startSplashTime = System.currentTimeMillis();
         FontUtils.initialize(this, new String[]{Fonts.LIGHT});
         ParseAnalytics.trackAppOpened(getIntent());
-        getAppCompanyInfo(new AsyncCallback<Boolean>()
-        {
+        getAppCompanyInfo(new AsyncCallback<Boolean>() {
             @Override
-            public void onOperationCompleted(Boolean result)
-            {
-                if (result)
-                {
+            public void onOperationCompleted(Boolean result) {
+                if (result) {
                     initLocationAlarm(MainActivity.this);
 
                     long dt = System.currentTimeMillis() - startSplashTime;
@@ -77,17 +73,13 @@ public class MainActivity extends ActionBarActivity implements PostsFragment.Fra
                     timeToWait = timeToWait > 0 ? timeToWait : 0;
 
                     Handler handler = new Handler();
-                    handler.postDelayed(new Runnable()
-                    {
+                    handler.postDelayed(new Runnable() {
                         @Override
-                        public void run()
-                        {
+                        public void run() {
                             initUI();
                         }
                     }, timeToWait);
-                }
-                else
-                {
+                } else {
                     Toast.makeText(MainActivity.this, "Error. Please check your network connection.", Toast.LENGTH_SHORT).show();
                     finish();
                 }
@@ -96,8 +88,7 @@ public class MainActivity extends ActionBarActivity implements PostsFragment.Fra
     }
 
 
-    public void initUI()
-    {
+    public void initUI() {
         getSupportActionBar().show();
         setContentView(R.layout.activity_main);
 
@@ -109,8 +100,7 @@ public class MainActivity extends ActionBarActivity implements PostsFragment.Fra
         FontUtils.getInstance().overrideFonts(actionBarTitleTextView, Fonts.LIGHT);
     }
 
-    public static void initLocationAlarm(Context context)
-    {
+    public static void initLocationAlarm(Context context) {
         Intent locationAlarmIntent = new Intent(context, BackgroundNotificationService.class);
         PendingIntent pendingLocationAlarmIntent = PendingIntent.getService(context, 0,
                 locationAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -120,35 +110,29 @@ public class MainActivity extends ActionBarActivity implements PostsFragment.Fra
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         updateAddPostButton(menu);
         return true;
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu)
-    {
+    public boolean onPrepareOptionsMenu(Menu menu) {
         updateAddPostButton(menu);
         return super.onPrepareOptionsMenu(menu);
     }
 
-    public void updateAddPostButton(Menu menu)
-    {
+    public void updateAddPostButton(Menu menu) {
         MenuItem addPostItem = menu.findItem(R.id.action_add_post);
-        if (addPostItem != null)
-        {
+        if (addPostItem != null) {
             ParseUser currentUser = ParseUser.getCurrentUser();
             addPostItem.setVisible(currentUser != null && currentUser.getBoolean("isAdmin"));
         }
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.action_share:
                 String shareUrl = LocalUser.getInstance().getParentCompany().getString("appShareUrl");
                 onShareAppMenuClicked(shareUrl);
@@ -162,41 +146,34 @@ public class MainActivity extends ActionBarActivity implements PostsFragment.Fra
         return super.onOptionsItemSelected(item);
     }
 
-    private void getAppCompanyInfo(final AsyncCallback<Boolean> onCompanyInitialized)
-    {
-        LocalUser.initialize(this, new AsyncCallback<Boolean>()
-        {
+    private void getAppCompanyInfo(final AsyncCallback<Boolean> onCompanyInitialized) {
+        LocalUser.initialize(this, new AsyncCallback<Boolean>() {
             @Override
-            public void onOperationCompleted(Boolean result)
-            {
+            public void onOperationCompleted(Boolean result) {
                 onCompanyInitialized.onOperationCompleted(result);
             }
         });
     }
 
     @Override
-    public void onPostClicked(Post post)
-    {
+    public void onPostClicked(Post post) {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, PostDetailsFragment.newInstance(post)).addToBackStack(null)
                 .commit();
     }
 
     @Override
-    public void onVisitWebMenuClicked()
-    {
+    public void onVisitWebMenuClicked() {
         VisitSiteFragment visitSiteFragment = VisitSiteFragment.newInstance();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, visitSiteFragment).addToBackStack(null)
                 .commit();
     }
 
     @Override
-    public void onSpecificShare(String shareUrl)
-    {
+    public void onSpecificShare(String shareUrl) {
         onShareAppMenuClicked(shareUrl);
     }
 
-    public void shareToFacebook(final String shareUrl)
-    {
+    public void shareToFacebook(final String shareUrl) {
         String urlToShare = shareUrl;
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
@@ -204,18 +181,15 @@ public class MainActivity extends ActionBarActivity implements PostsFragment.Fra
 
         boolean facebookAppFound = false;
         List<ResolveInfo> matches = getPackageManager().queryIntentActivities(intent, 0);
-        for (ResolveInfo info : matches)
-        {
-            if (info.activityInfo.packageName.toLowerCase().startsWith("com.facebook.katana"))
-            {
+        for (ResolveInfo info : matches) {
+            if (info.activityInfo.packageName.toLowerCase().startsWith("com.facebook.katana")) {
                 intent.setPackage(info.activityInfo.packageName);
                 facebookAppFound = true;
                 break;
             }
         }
 
-        if (!facebookAppFound)
-        {
+        if (!facebookAppFound) {
             String sharerUrl = "https://www.facebook.com/sharer/sharer.php?u=" + urlToShare;
             intent = new Intent(Intent.ACTION_VIEW, Uri.parse(sharerUrl));
         }
@@ -224,19 +198,15 @@ public class MainActivity extends ActionBarActivity implements PostsFragment.Fra
     }
 
     @Override
-    public void onShareAppMenuClicked(final String shareUrl)
-    {
+    public void onShareAppMenuClicked(final String shareUrl) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Share");
         builder.setItems(new String[]{
                 "Facebook", "Email", "Text"
-        }, new DialogInterface.OnClickListener()
-        {
+        }, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int clickedPosition)
-            {
-                switch (clickedPosition)
-                {
+            public void onClick(DialogInterface dialogInterface, int clickedPosition) {
+                switch (clickedPosition) {
                     case 0:
                         shareToFacebook(shareUrl);
                         break;
@@ -254,8 +224,7 @@ public class MainActivity extends ActionBarActivity implements PostsFragment.Fra
     }
 
 
-    public void shareToEmail(String shareUrl)
-    {
+    public void shareToEmail(String shareUrl) {
         Intent emailIntent = new Intent(Intent.ACTION_SEND, Uri.fromParts("mailto", "", null));
         emailIntent.setType("image/png");
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "From the " + getString(R.string.app_name) + " app");
@@ -263,8 +232,7 @@ public class MainActivity extends ActionBarActivity implements PostsFragment.Fra
         startActivity(Intent.createChooser(emailIntent, "Email"));
     }
 
-    public void shareToSms(String shareUrl)
-    {
+    public void shareToSms(String shareUrl) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) //At least KitKat
         {
             String defaultSmsPackageName = Telephony.Sms.getDefaultSmsPackage(this); //Need to change the build to API 19
@@ -279,9 +247,7 @@ public class MainActivity extends ActionBarActivity implements PostsFragment.Fra
             }
 
             startActivity(sendIntent);
-        }
-        else
-        {
+        } else {
             Intent sendIntent = new Intent(Intent.ACTION_VIEW);
             sendIntent.setData(Uri.parse("sms:"));
             sendIntent.putExtra("sms_body", shareUrl);
@@ -290,45 +256,38 @@ public class MainActivity extends ActionBarActivity implements PostsFragment.Fra
     }
 
     @Override
-    public void onTermsConditionMenuClicked()
-    {
+    public void onTermsConditionMenuClicked() {
         TermsAndConditionsFragment termsAndConditionsFragment = new TermsAndConditionsFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, termsAndConditionsFragment).addToBackStack(null).commit();
     }
 
     @Override
-    public void onPrivacyPolicyMenuClicked()
-    {
+    public void onPrivacyPolicyMenuClicked() {
         PrivacyPolicyFragment policyFragment = PrivacyPolicyFragment.newInstance();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, policyFragment).addToBackStack(null).commit();
     }
 
     @Override
-    public void onRewardsClicked()
-    {
+    public void onRewardsClicked() {
         mTabContainerFragment.getHomePager().setCurrentItem(HomePageSwipeAdapter.POS_REWARDS);
     }
 
     @Override
-    public void onEditStoreLocationClicked()
-    {
+    public void onEditStoreLocationClicked() {
         EditLocationFragment editLocationFragment = EditLocationFragment.newInstance();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, editLocationFragment).addToBackStack(null).commit();
     }
 
     @Override
-    public void onAboutAppMenuClicked()
-    {
+    public void onAboutAppMenuClicked() {
         AboutFragment aboutFragment = AboutFragment.newInstance();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, aboutFragment).addToBackStack(null).commit();
     }
 
     @Override
-    public void onCallUsMenuClicked()
-    {
+    public void onCallUsMenuClicked() {
         String phn = LocalUser.getInstance().getParentCompany().getString("phoneNumber");
-        if (!phn.equals(""))
-        {
+        if (!phn.equals("")) {
             Intent callIntent = new Intent(Intent.ACTION_CALL);
             callIntent.setData(Uri.parse("tel:" + phn));
             startActivity(callIntent);
@@ -336,11 +295,9 @@ public class MainActivity extends ActionBarActivity implements PostsFragment.Fra
     }
 
     @Override
-    public void onEmailUsMenuClicked()
-    {
+    public void onEmailUsMenuClicked() {
         String email = LocalUser.getInstance().getParentCompany().getString("email");
-        if (!email.equals(""))
-        {
+        if (!email.equals("")) {
             Intent intentMail = new Intent(Intent.ACTION_SEND);
             intentMail.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
 
@@ -350,8 +307,7 @@ public class MainActivity extends ActionBarActivity implements PostsFragment.Fra
     }
 
     @Override
-    public void onLogInToggled(boolean requestLogin)
-    {
+    public void onLogInToggled(boolean requestLogin) {
         supportInvalidateOptionsMenu();
         mTabContainerFragment.getHomePageSwipeAdapter().notifyDataSetChanged();
 
@@ -360,18 +316,15 @@ public class MainActivity extends ActionBarActivity implements PostsFragment.Fra
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        for(ActivityResultListener listener : mActivityResultListeners)
-        {
+        for (ActivityResultListener listener : mActivityResultListeners) {
             listener.onActivityResult(requestCode, resultCode, data);
         }
     }
 
     @Override
-    public void registerActivityResultListener(ActivityResultListener listener)
-    {
+    public void registerActivityResultListener(ActivityResultListener listener) {
         mActivityResultListeners.add(listener);
     }
 }

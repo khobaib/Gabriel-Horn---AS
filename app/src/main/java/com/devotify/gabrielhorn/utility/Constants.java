@@ -1,7 +1,6 @@
 package com.devotify.gabrielhorn.utility;
 
-public class Constants
-{
+public class Constants {
     public static boolean TABFROMSHARE = false;
 
     public static final String OBJECT_REWARDS = "Rewards";

@@ -10,7 +10,7 @@ import android.widget.SpinnerAdapter;
 
 /**
  * http://stackoverflow.com/a/12221309/1433187
- * Decorator Adapter to allow a Spinner to show a 'Nothing Selected...' initially displayed instead 
+ * Decorator Adapter to allow a Spinner to show a 'Nothing Selected...' initially displayed instead
  * of the first choice in the Adapter.
  */
 public class NothingSelectedSpinnerAdapter implements SpinnerAdapter, ListAdapter {
@@ -24,25 +24,27 @@ public class NothingSelectedSpinnerAdapter implements SpinnerAdapter, ListAdapte
 
     /**
      * Use this constructor to have NO 'Select One...' item, instead use the standard prompt or nothing at all
-     * @param spinnerAdapter wrapped Adapter.
+     *
+     * @param spinnerAdapter        wrapped Adapter.
      * @param nothingSelectedLayout layout for nothing selected, perhaps you want text grayed out like a prompt...
      * @param context
      */
-    public NothingSelectedSpinnerAdapter(SpinnerAdapter spinnerAdapter,  
-            int nothingSelectedLayout, Context context) {
+    public NothingSelectedSpinnerAdapter(SpinnerAdapter spinnerAdapter,
+                                         int nothingSelectedLayout, Context context) {
         this(spinnerAdapter, nothingSelectedLayout, -1, context);
     }
 
     /**
      * Use this constructor to Define your 'Select One...' layout as the first row in the returned choices.
      * If you do this, you probably don't want a prompt on your spinner or it'll have two 'Select' rows.
-     * @param spinnerAdapter wrapped Adapter. Should probably return false for isEnabled(0)
-     * @param nothingSelectedLayout layout for nothing selected, perhaps you want text grayed out like a prompt...
+     *
+     * @param spinnerAdapter                wrapped Adapter. Should probably return false for isEnabled(0)
+     * @param nothingSelectedLayout         layout for nothing selected, perhaps you want text grayed out like a prompt...
      * @param nothingSelectedDropdownLayout layout for your 'Select an Item...' in the dropdown
      * @param context
      */
-    public NothingSelectedSpinnerAdapter(SpinnerAdapter spinnerAdapter,  
-            int nothingSelectedLayout, int nothingSelectedDropdownLayout, Context context) {
+    public NothingSelectedSpinnerAdapter(SpinnerAdapter spinnerAdapter,
+                                         int nothingSelectedLayout, int nothingSelectedDropdownLayout, Context context) {
         this.adapter = spinnerAdapter;
         this.context = context;
         this.nothingSelectedLayout = nothingSelectedLayout;
@@ -57,11 +59,12 @@ public class NothingSelectedSpinnerAdapter implements SpinnerAdapter, ListAdapte
             return getNothingSelectedView(parent);
         }
         return adapter.getView(position - EXTRA, null, parent); // could re-use the convertView if possible
-    } 
+    }
 
     /**
      * View to show in Spinner with Nothing Selected
      * Override this to do something dynamic... e.g. "37 Options Found"
+     *
      * @param parent
      * @return
      */
@@ -80,7 +83,8 @@ public class NothingSelectedSpinnerAdapter implements SpinnerAdapter, ListAdapte
     }
 
     /**
-     * Override this to do something dynamic... e.g. "Pick your Favorite of these 37"  
+     * Override this to do something dynamic... e.g. "Pick your Favorite of these 37"
+     *
      * @param parent
      * @return
      */

@@ -7,8 +7,7 @@
     </style>
 
     <!-- ActionBar styles -->
-    <style name="AppActionBar"
-           parent="@style/Widget.AppCompat.Light.ActionBar">
+    <style name="AppActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">
         <item name="android:background">@drawable/action_bar_background</item>
 
         <item name="homeAsUpIndicator">@color/transparent</item>

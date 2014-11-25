@@ -13,21 +13,17 @@ import com.parse.ParseUser;
 /**
  * Created by Usama on 10/2/14.
  */
-public class HomePageSwipeAdapter extends FragmentStatePagerAdapter
-{
+public class HomePageSwipeAdapter extends FragmentStatePagerAdapter {
     public static final int NUM_SWIPE_VIEWS = 3;
     public static final int POS_NEWS_FEED = 0, POS_REWARDS = 1, POS_MORE = 2;
 
-    public HomePageSwipeAdapter(FragmentManager fm)
-    {
+    public HomePageSwipeAdapter(FragmentManager fm) {
         super(fm);
     }
 
     @Override
-    public CharSequence getPageTitle(int position)
-    {
-        switch (position)
-        {
+    public CharSequence getPageTitle(int position) {
+        switch (position) {
             case POS_NEWS_FEED:
                 return "News";
             case POS_REWARDS:
@@ -40,10 +36,8 @@ public class HomePageSwipeAdapter extends FragmentStatePagerAdapter
     }
 
     @Override
-    public Fragment getItem(int position)
-    {
-        switch (position)
-        {
+    public Fragment getItem(int position) {
+        switch (position) {
             case POS_NEWS_FEED:
                 return PostsFragment.newInstance();
             case POS_REWARDS:
@@ -56,14 +50,12 @@ public class HomePageSwipeAdapter extends FragmentStatePagerAdapter
     }
 
     @Override
-    public int getItemPosition(Object object)
-    {
+    public int getItemPosition(Object object) {
         return POSITION_NONE;
     }
 
     @Override
-    public int getCount()
-    {
+    public int getCount() {
         return NUM_SWIPE_VIEWS;
     }
 }

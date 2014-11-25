@@ -11,27 +11,22 @@ import com.parse.ParseQuery;
 /**
  * Created by Usama on 9/24/14.
  */
-public class LocalUser
-{
+public class LocalUser {
     private ParseObject parentCompany;
     private static LocalUser singleton;
 
-    private LocalUser()
-    {
+    private LocalUser() {
 
     }
 
-    public static void initialize(Context context, final AsyncCallback<Boolean> onFinishedCallback)
-    {
+    public static void initialize(Context context, final AsyncCallback<Boolean> onFinishedCallback) {
         singleton = new LocalUser();
 
         ParseQuery<ParseObject> companyQuery = ParseQuery.getQuery("AppParentCompany");
         companyQuery.whereEqualTo("appIdentifier", context.getPackageName());
-        companyQuery.getFirstInBackground(new GetCallback<ParseObject>()
-        {
+        companyQuery.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
-            public void done(ParseObject parseObject, ParseException e)
-            {
+            public void done(ParseObject parseObject, ParseException e) {
                 singleton.parentCompany = parseObject;
 
                 if (onFinishedCallback != null)
@@ -40,18 +35,15 @@ public class LocalUser
         });
     }
 
-    public static LocalUser getInstance()
-    {
+    public static LocalUser getInstance() {
         return singleton;
     }
 
-    public ParseObject getParentCompany()
-    {
+    public ParseObject getParentCompany() {
         return parentCompany;
     }
 
-    public void setParentCompany(ParseObject parentCompany)
-    {
+    public void setParentCompany(ParseObject parentCompany) {
         this.parentCompany = parentCompany;
     }
 }

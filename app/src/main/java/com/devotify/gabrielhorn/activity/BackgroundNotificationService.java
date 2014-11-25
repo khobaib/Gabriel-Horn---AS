@@ -29,43 +29,33 @@ import java.util.List;
 /**
  * Created by Usama on 10/1/14.
  */
-public class BackgroundNotificationService extends IntentService implements GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener
-{
+public class BackgroundNotificationService extends IntentService implements GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener {
     private LocationClient mLocationClient;
 
-    public BackgroundNotificationService()
-    {
+    public BackgroundNotificationService() {
         super(BackgroundNotificationService.class.toString());
     }
 
     @Override
-    protected void onHandleIntent(Intent intent)
-    {
+    protected void onHandleIntent(Intent intent) {
         mLocationClient = new LocationClient(this, this, this);
         mLocationClient.connect();
     }
 
     @Override
-    public void onConnected(Bundle bundle)
-    {
+    public void onConnected(Bundle bundle) {
         final Location currentUserLocation = mLocationClient.getLastLocation();
-        if (currentUserLocation != null)
-        {
+        if (currentUserLocation != null) {
             final LocalUser localUser = LocalUser.getInstance();
-            if (localUser == null)
-            {
-                LocalUser.initialize(BackgroundNotificationService.this, new AsyncCallback<Boolean>()
-                {
+            if (localUser == null) {
+                LocalUser.initialize(BackgroundNotificationService.this, new AsyncCallback<Boolean>() {
                     @Override
-                    public void onOperationCompleted(Boolean result)
-                    {
+                    public void onOperationCompleted(Boolean result) {
                         if (result)
                             onLocalUserReady(LocalUser.getInstance(), currentUserLocation);
                     }
                 });
-            }
-            else
-            {
+            } else {
                 onLocalUserReady(localUser, currentUserLocation);
             }
         }
@@ -74,52 +64,39 @@ public class BackgroundNotificationService extends IntentService implements Goog
     }
 
     @Override
-    public void onDisconnected()
-    {
+    public void onDisconnected() {
 
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult)
-    {
+    public void onConnectionFailed(ConnectionResult connectionResult) {
 
     }
 
-    public void onLocalUserReady(LocalUser localUser, final Location currentUserLocation)
-    {
-        if (localUser.getParentCompany() != null)
-        {
+    public void onLocalUserReady(LocalUser localUser, final Location currentUserLocation) {
+        if (localUser.getParentCompany() != null) {
             ParseQuery<ParseObject> notificationObjectQuery = ParseQuery.getQuery("LocationPin");
             notificationObjectQuery.whereEqualTo("appCompany", localUser.getParentCompany());
             notificationObjectQuery.fromLocalDatastore();
-            notificationObjectQuery.findInBackground(new FindCallback<ParseObject>()
-            {
+            notificationObjectQuery.findInBackground(new FindCallback<ParseObject>() {
                 @Override
-                public void done(final List<ParseObject> parseObjects, ParseException e)
-                {
-                    ParseObject.unpinAllInBackground("location_pins", parseObjects, new DeleteCallback()
-                    {
+                public void done(final List<ParseObject> parseObjects, ParseException e) {
+                    ParseObject.unpinAllInBackground("location_pins", parseObjects, new DeleteCallback() {
                         @Override
-                        public void done(ParseException e)
-                        {
-                            if (e == null)
-                            {
+                        public void done(ParseException e) {
+                            if (e == null) {
                                 ParseObject.pinAllInBackground("location_pins", parseObjects);
-                            }
-                            else
-                            {
+                            } else {
                                 e.printStackTrace();
                             }
                         }
                     });
 
-                    for (ParseObject locationPinCandidate : parseObjects)
-                    {
+                    for (ParseObject locationPinCandidate : parseObjects) {
                         ParseGeoPoint candidateLocation = locationPinCandidate.getParseGeoPoint("location");
                         double candidateDistanceMeters = candidateLocation.distanceInKilometersTo(new ParseGeoPoint(currentUserLocation.getLatitude(),
                                 currentUserLocation.getLongitude())) * 1000;
-                        if (candidateDistanceMeters <= locationPinCandidate.getInt("vicinityRadius"))
-                        {
+                        if (candidateDistanceMeters <= locationPinCandidate.getInt("vicinityRadius")) {
                             sendUserNotification(locationPinCandidate);
                         }
                     }
@@ -128,8 +105,7 @@ public class BackgroundNotificationService extends IntentService implements Goog
         }
     }
 
-    public void sendUserNotification(ParseObject notificationObject)
-    {
+    public void sendUserNotification(ParseObject notificationObject) {
         String title = getString(R.string.app_name);
         String message = notificationObject.getString("notificationText");
 

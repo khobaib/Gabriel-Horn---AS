@@ -74,8 +74,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 
-public class AddPostFragment extends Fragment
-{
+public class AddPostFragment extends Fragment {
     private final String TAG = this.getClass().getSimpleName();
 
     private static final int CAMERA_REQ_CODE = 901;
@@ -110,42 +109,34 @@ public class AddPostFragment extends Fragment
     private String postLink = "";
     private ProgressDialog pDialog;
 
-    public static Fragment newInstance()
-    {
+    public static Fragment newInstance() {
         return new AddPostFragment();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         v = inflater.inflate(R.layout.fragment_add_post, container, false);
         bCamera = (Button) v.findViewById(R.id.btnCamera);
-        bCamera.setOnClickListener(new OnClickListener()
-        {
+        bCamera.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 showPicDialog();
             }
         });
 
         bHLink = (Button) v.findViewById(R.id.btnHyperLink);
-        bHLink.setOnClickListener(new OnClickListener()
-        {
+        bHLink.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 showAddHyperLinkDialog();
             }
         });
 
         ivSelectedImage = (ImageView) v.findViewById(R.id.ivToBePostedImage);
-        ivSelectedImage.setOnClickListener(new OnClickListener()
-        {
+        ivSelectedImage.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 showPicRemovePrompt();
             }
         });
@@ -153,41 +144,33 @@ public class AddPostFragment extends Fragment
         txtLink = (TextView) v.findViewById(R.id.tvToBePostedlinks);
 
         btnAddPost = (Button) v.findViewById(R.id.btnAddPost);
-        btnAddPost.setOnClickListener(new OnClickListener()
-        {
+        btnAddPost.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 onPostButtonClicked();
             }
         });
 
         edtCategory = (EditText) v.findViewById(R.id.etCategoryAddPost);
-        edtCategory.setOnTouchListener(new OnTouchListener()
-        {
+        edtCategory.setOnTouchListener(new OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent arg1)
-            {
+            public boolean onTouch(View v, MotionEvent arg1) {
                 spCategory.performClick();
                 return true;
             }
         });
 
         spCategory = (Spinner) v.findViewById(R.id.sp_catgory);
-        spCategory.setOnItemSelectedListener(new OnItemSelectedListener()
-        {
+        spCategory.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View v, int position, long id)
-            {
-                if (position > 0)
-                {
+            public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
+                if (position > 0) {
                     edtCategory.setText(catList[position - 1]);
                 }
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> arg0)
-            {
+            public void onNothingSelected(AdapterView<?> arg0) {
             }
         });
 
@@ -212,31 +195,26 @@ public class AddPostFragment extends Fragment
         llLinkHolder.setVisibility(View.GONE);
 
         llDateLayout = (LinearLayout) v.findViewById(R.id.llDateAddPost);
-        llDateLayout.setOnClickListener(new OnClickListener()
-        {
+        llDateLayout.setOnClickListener(new OnClickListener() {
 
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 showDatePicker();
 
             }
         });
 
         llTimeLayout = (LinearLayout) v.findViewById(R.id.llTimeAddPost);
-        llTimeLayout.setOnClickListener(new OnClickListener()
-        {
+        llTimeLayout.setOnClickListener(new OnClickListener() {
 
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 showTimePicker();
 
             }
         });
 
-        if (savedInstanceState != null)
-        {
+        if (savedInstanceState != null) {
             picFile = (File) savedInstanceState.getSerializable("post_pic");
             isImageVisible = savedInstanceState.getBoolean("is_image_visible");
             if (isImageVisible)
@@ -247,21 +225,18 @@ public class AddPostFragment extends Fragment
         return v;
     }
 
-    public void onPostButtonClicked()
-    {
+    public void onPostButtonClicked() {
         boolean validationError = false;
 
         StringBuilder errorMessage = new StringBuilder(getResources().getString(R.string.error_intro));
         String catgory = edtCategory.getText().toString();
-        if (catgory.equals(""))
-        {
+        if (catgory.equals("")) {
             errorMessage.append("Enter Category");
             validationError = true;
         }
 
         final String title = edtTitle.getText().toString();
-        if (title.equals(""))
-        {
+        if (title.equals("")) {
             if (validationError)
                 errorMessage.append(", ");
             validationError = true;
@@ -269,8 +244,7 @@ public class AddPostFragment extends Fragment
         }
 
         String details = edtDetails.getText().toString();
-        if (details.equals(""))
-        {
+        if (details.equals("")) {
             if (validationError)
                 errorMessage.append(" and ");
             validationError = true;
@@ -280,8 +254,7 @@ public class AddPostFragment extends Fragment
 
         errorMessage.append(getResources().getString(R.string.error_end));
         Date date = calculateExpiryDate();
-        if (!validationError)
-        {
+        if (!validationError) {
             pDialog = Utils.createProgressDialog(getActivity());
             pDialog.show();
 
@@ -294,53 +267,40 @@ public class AddPostFragment extends Fragment
             parseObject.put("link", postLink);
             parseObject.put("appCompany", LocalUser.getInstance().getParentCompany());
 
-            if (mImageCaptureUri != null)
-            {
+            if (mImageCaptureUri != null) {
                 byte[] data = new byte[(int) picFile.length()];
                 FileInputStream fileInputStream;
 
-                try
-                {
+                try {
                     fileInputStream = new FileInputStream(picFile);
                     fileInputStream.read(data);
                     ParseFile pFile = new ParseFile(picFile.getName(), data);
                     parseObject.put("image", pFile);
-                }
-                catch (IOException e)
-                {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
 
-            parseObject.saveInBackground(new SaveCallback()
-            {
+            parseObject.saveInBackground(new SaveCallback() {
                 @Override
-                public void done(ParseException e)
-                {
-                    if (e == null)
-                    {
-                        if (getActivity() != null)
-                        {
+                public void done(ParseException e) {
+                    if (e == null) {
+                        if (getActivity() != null) {
                             Toast.makeText(getActivity(), "Successfully posted.", Toast.LENGTH_LONG).show();
                             getActivity().getSupportFragmentManager().popBackStack();
 
                             HashMap<String, String> params = new HashMap<String, String>();
                             params.put("appIdentifier", getActivity().getPackageName());
-                            ParseCloud.callFunctionInBackground("sendPush", params, new FunctionCallback<Object>()
-                            {
+                            ParseCloud.callFunctionInBackground("sendPush", params, new FunctionCallback<Object>() {
                                 @Override
-                                public void done(Object o, ParseException e)
-                                {
-                                    if (e != null)
-                                    {
+                                public void done(Object o, ParseException e) {
+                                    if (e != null) {
                                         e.printStackTrace();
                                     }
                                 }
                             });
                         }
-                    }
-                    else
-                    {
+                    } else {
                         Log.e("TAG", "error");
                     }
 
@@ -348,23 +308,19 @@ public class AddPostFragment extends Fragment
                 }
             });
 
-        }
-        else
-        {
+        } else {
             toast(errorMessage.toString());
         }
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-    {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
         inflater.inflate(R.menu.add_post_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    private void setSpinner()
-    {
+    private void setSpinner() {
         ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_dropdown_item, Arrays.asList(catList));
         spCategory.setAdapter(new NothingSelectedSpinnerAdapter(myAdapter, R.layout.row_spinner_nothing_selected,
@@ -372,21 +328,18 @@ public class AddPostFragment extends Fragment
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     }
 
-    private void toast(String str)
-    {
+    private void toast(String str) {
         Toast.makeText(getActivity(), str, Toast.LENGTH_LONG).show();
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState)
-    {
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         activity = getActivity();
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState)
-    {
+    public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (picFile == null)
             setImageFile();
@@ -395,8 +348,7 @@ public class AddPostFragment extends Fragment
     }
 
     @SuppressLint("SimpleDateFormat")
-    private Date calculateExpiryDate()
-    {
+    private Date calculateExpiryDate() {
         String day = tvDay.getText().toString();
         String stringMonth = tvMonth.getText().toString();
         String year = tvYear.getText().toString();
@@ -405,8 +357,7 @@ public class AddPostFragment extends Fragment
         int hour = Integer.valueOf(tvHour.getText().toString());
         String amPm = tvAmPM.getText().toString();
 
-        if (amPm.equals("PM"))
-        {
+        if (amPm.equals("PM")) {
             hour = hour + 12;
         }
 
@@ -414,13 +365,10 @@ public class AddPostFragment extends Fragment
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy hh:mm");
 
         Date date = null;
-        try
-        {
+        try {
             date = formatter.parse(dateString);
             Log.e("DATE", date.toString());
-        }
-        catch (java.text.ParseException e)
-        {
+        } catch (java.text.ParseException e) {
 
             e.printStackTrace();
         }
@@ -429,8 +377,7 @@ public class AddPostFragment extends Fragment
 
     }
 
-    private void initDateAndTimePicker()
-    {
+    private void initDateAndTimePicker() {
         Time time = new Time();
         time.setToNow();
         int month = time.month;
@@ -441,13 +388,10 @@ public class AddPostFragment extends Fragment
         tvYear.setText("" + year);
         tvDay.setText("" + day);
         tvMonth.setText(monthArray[month]);
-        if (hour >= 12)
-        {
+        if (hour >= 12) {
             tvHour.setText((hour - 12) + "");
             tvAmPM.setText("PM");
-        }
-        else
-        {
+        } else {
             tvHour.setText(hour + "");
             tvAmPM.setText("AM");
         }
@@ -455,8 +399,7 @@ public class AddPostFragment extends Fragment
 
     }
 
-    private String getTimeStamp()
-    {
+    private String getTimeStamp() {
         Time time = new Time();
         time.setToNow();
         int month = time.month;
@@ -468,21 +411,15 @@ public class AddPostFragment extends Fragment
         return year + "_" + month + "_" + day + "_" + hour + "_" + min;
     }
 
-    private void showTimePicker()
-    {
-        DialogFragment df = DateOrTimePickerFragment.getInstance(new OnDateOrTimSetListener()
-        {
+    private void showTimePicker() {
+        DialogFragment df = DateOrTimePickerFragment.getInstance(new OnDateOrTimSetListener() {
             @Override
-            public void dateOrTimeSet(int hour, int minute, int ignored)
-            {
+            public void dateOrTimeSet(int hour, int minute, int ignored) {
                 Log.d(TAG, "Hour: " + hour + ", minute: " + minute + ", ignored: " + ignored);
-                if (hour >= 12)
-                {
+                if (hour >= 12) {
                     tvHour.setText((hour - 12) + "");
                     tvAmPM.setText("PM");
-                }
-                else
-                {
+                } else {
                     tvHour.setText(hour + "");
                     tvAmPM.setText("AM");
                 }
@@ -492,13 +429,10 @@ public class AddPostFragment extends Fragment
         df.show(((FragmentActivity) activity).getSupportFragmentManager(), "time_picker");
     }
 
-    private void showDatePicker()
-    {
-        DialogFragment df = DateOrTimePickerFragment.getInstance(new OnDateOrTimSetListener()
-        {
+    private void showDatePicker() {
+        DialogFragment df = DateOrTimePickerFragment.getInstance(new OnDateOrTimSetListener() {
             @Override
-            public void dateOrTimeSet(int year, int month, int day)
-            {
+            public void dateOrTimeSet(int year, int month, int day) {
                 Log.d(TAG, "Year: " + year + ", month: " + month + ", day: " + day);
                 tvYear.setText(year + "");
                 tvMonth.setText(monthArray[month]);
@@ -508,16 +442,13 @@ public class AddPostFragment extends Fragment
         df.show(((FragmentActivity) activity).getSupportFragmentManager(), "date_picker");
     }
 
-    private void showPicRemovePrompt()
-    {
+    private void showPicRemovePrompt() {
         final Dialog dialog = new Dialog(activity, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
         dialog.setContentView(R.layout.dialog_pic_remove);
 
-        dialog.findViewById(R.id.btnRemoveDialogPicRemover).setOnClickListener(new OnClickListener()
-        {
+        dialog.findViewById(R.id.btnRemoveDialogPicRemover).setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 llImageHolder.setVisibility(View.GONE);
                 isImageVisible = false;
                 scaledBmp = null;
@@ -528,11 +459,9 @@ public class AddPostFragment extends Fragment
                 dialog.dismiss();
             }
         });
-        dialog.findViewById(R.id.btnCancelDialogPicRemover).setOnClickListener(new OnClickListener()
-        {
+        dialog.findViewById(R.id.btnCancelDialogPicRemover).setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 dialog.dismiss();
             }
         });
@@ -547,39 +476,30 @@ public class AddPostFragment extends Fragment
         dialog.show();
     }
 
-    private void addLink()
-    {
-        if (postLink.equals(""))
-        {
+    private void addLink() {
+        if (postLink.equals("")) {
             llLinkHolder.setVisibility(View.GONE);
-        }
-        else
-        {
+        } else {
             llLinkHolder.setVisibility(View.VISIBLE);
             txtLink.setText(postLink);
         }
     }
 
-    private void showPicDialog()
-    {
+    private void showPicDialog() {
         final Dialog dialog = new Dialog(activity, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
         dialog.setContentView(R.layout.dialog_pic_taker);
         Button btnTakePic = (Button) dialog.findViewById(R.id.btnCameraDialogPicTaker);
-        btnTakePic.setOnClickListener(new OnClickListener()
-        {
+        btnTakePic.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 takePicture();
                 dialog.dismiss();
             }
         });
         Button btnChoosePic = (Button) dialog.findViewById(R.id.btnChooseDialogPicTaker);
-        btnChoosePic.setOnClickListener(new OnClickListener()
-        {
+        btnChoosePic.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 setImageFile();
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("image/*");
@@ -588,11 +508,9 @@ public class AddPostFragment extends Fragment
             }
         });
         Button btnCancel = (Button) dialog.findViewById(R.id.btnCancelDialogPicTaker);
-        btnCancel.setOnClickListener(new OnClickListener()
-        {
+        btnCancel.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 dialog.dismiss();
             }
         });
@@ -609,20 +527,15 @@ public class AddPostFragment extends Fragment
         dialog.show();
     }
 
-    private void takePicture()
-    {
+    private void takePicture() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        try
-        {
+        try {
             setImageFile();
 
             // set uri from the file
-            if (isSDCardMounted())
-            {
+            if (isSDCardMounted()) {
                 mImageCaptureUri = Uri.fromFile(picFile);
-            }
-            else
-            {
+            } else {
                 Toast.makeText(activity, "Media Not Mounted!", Toast.LENGTH_LONG).show();
                 return;
             }
@@ -632,15 +545,12 @@ public class AddPostFragment extends Fragment
             intent.putExtra("return-data", true);
             Log.d(TAG, "cam intent starting");
             startActivityForResult(intent, CAMERA_REQ_CODE);
-        }
-        catch (ActivityNotFoundException e)
-        {
+        } catch (ActivityNotFoundException e) {
             Log.d("Error", "Activity Not Found" + e.toString());
         }
     }
 
-    private void setImageFile()
-    {
+    private void setImageFile() {
         // Set the file name
         File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
                 "Gabriel Horn");
@@ -648,87 +558,63 @@ public class AddPostFragment extends Fragment
 
         String photoFileName = "post_pic" + getTimeStamp() + ".png";
         picFile = new File(directory.getPath(), photoFileName);
-        try
-        {
+        try {
             picFile.createNewFile();
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private int getCorrectionAngleForCam() throws IOException
-    {
+    private int getCorrectionAngleForCam() throws IOException {
         ExifInterface exif = new ExifInterface(picFile.getPath());
         int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
 
         int angle = 0;
-        if (orientation == ExifInterface.ORIENTATION_ROTATE_90)
-        {
+        if (orientation == ExifInterface.ORIENTATION_ROTATE_90) {
             angle = 90;
-        }
-        else if (orientation == ExifInterface.ORIENTATION_ROTATE_180)
-        {
+        } else if (orientation == ExifInterface.ORIENTATION_ROTATE_180) {
             angle = 180;
-        }
-        else if (orientation == ExifInterface.ORIENTATION_ROTATE_270)
-        {
+        } else if (orientation == ExifInterface.ORIENTATION_ROTATE_270) {
             angle = 270;
         }
 
         return angle;
     }
 
-    private void loadPicasaImageFromGallery(final Uri uri)
-    {
+    private void loadPicasaImageFromGallery(final Uri uri) {
         String[] projection = {MediaColumns.DATA, MediaColumns.DISPLAY_NAME};
         Cursor cursor = activity.getContentResolver().query(uri, projection, null, null, null);
-        if (cursor != null)
-        {
+        if (cursor != null) {
             cursor.moveToFirst();
 
             int columnIndex = cursor.getColumnIndex(MediaColumns.DISPLAY_NAME);
-            if (columnIndex != -1)
-            {
-                new Thread(new Runnable()
-                {
-                    public void run()
-                    {
-                        try
-                        {
+            if (columnIndex != -1) {
+                new Thread(new Runnable() {
+                    public void run() {
+                        try {
                             Bitmap bitmap = android.provider.MediaStore.Images.Media.getBitmap(
                                     activity.getContentResolver(), uri);
                             scaledBmp = Bitmap.createScaledBitmap(bitmap, 200, 200, true);
 
-                            activity.runOnUiThread(new Runnable()
-                            {
+                            activity.runOnUiThread(new Runnable() {
                                 @Override
-                                public void run()
-                                {
-                                    try
-                                    {
+                                public void run() {
+                                    try {
                                         FileOutputStream out = new FileOutputStream(picFile);
                                         scaledBmp.compress(Bitmap.CompressFormat.PNG, 90, out);
                                         mImageCaptureUri = Uri.fromFile(picFile);
                                         out.close();
                                         // ivProfilePic.setImageBitmap(scaledBmp);
                                         // btnUpdate.setVisibility(View.VISIBLE);
-                                    }
-                                    catch (FileNotFoundException e)
-                                    {
+                                    } catch (FileNotFoundException e) {
                                         e.printStackTrace();
-                                    }
-                                    catch (IOException e)
-                                    {
+                                    } catch (IOException e) {
                                         e.printStackTrace();
                                     }
                                 }
                             });
 
-                        }
-                        catch (Exception ex)
-                        {
+                        } catch (Exception ex) {
                             ex.printStackTrace();
                         }
                     }
@@ -739,26 +625,21 @@ public class AddPostFragment extends Fragment
 
     }
 
-    public String getPath(Uri uri)
-    {
+    public String getPath(Uri uri) {
         String[] projection = {MediaColumns.DATA};
         Cursor cursor = activity.getContentResolver().query(uri, projection, null, null, null);
-        if (cursor != null)
-        {
+        if (cursor != null) {
             cursor.moveToFirst();
             int columnIndex = cursor.getColumnIndexOrThrow(MediaColumns.DATA);
             String filePath = cursor.getString(columnIndex);
             cursor.close();
             return filePath;
-        }
-        else
+        } else
             return uri.getPath();
     }
 
-    private Bitmap decodeFile(File f, int imageQuality)
-    {
-        try
-        {
+    private Bitmap decodeFile(File f, int imageQuality) {
+        try {
             BitmapFactory.Options o = new BitmapFactory.Options();
             o.inJustDecodeBounds = true;
             FileInputStream stream1 = new FileInputStream(f);
@@ -770,8 +651,7 @@ public class AddPostFragment extends Fragment
             int width_tmp = o.outWidth, height_tmp = o.outHeight;
             int scale = 1;
 
-            while (true)
-            {
+            while (true) {
                 if (width_tmp / 2 < REQUIRED_SIZE || height_tmp / 2 < REQUIRED_SIZE)
                     break;
                 width_tmp /= 2;
@@ -787,19 +667,14 @@ public class AddPostFragment extends Fragment
             Bitmap bitmap = BitmapFactory.decodeStream(stream2, null, o2);
             stream2.close();
             return bitmap;
-        }
-        catch (FileNotFoundException e)
-        {
-        }
-        catch (IOException e)
-        {
+        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    private boolean isSDCardMounted()
-    {
+    private boolean isSDCardMounted() {
         String status = Environment.getExternalStorageState();
 
         if (status.equals(Environment.MEDIA_MOUNTED))
@@ -807,29 +682,23 @@ public class AddPostFragment extends Fragment
         return false;
     }
 
-    public static void copyStream(InputStream input, OutputStream output) throws IOException
-    {
+    public static void copyStream(InputStream input, OutputStream output) throws IOException {
 
         byte[] buffer = new byte[1024];
         int bytesRead;
-        while ((bytesRead = input.read(buffer)) != -1)
-        {
+        while ((bytesRead = input.read(buffer)) != -1) {
             output.write(buffer, 0, bytesRead);
         }
 
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        if (resultCode == Activity.RESULT_OK)
-        {
-            switch (requestCode)
-            {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
                 case CAMERA_REQ_CODE:
                     Log.d(TAG, "cam onActivityResult");
-                    try
-                    {
+                    try {
                         if (picFile == null)
                             setImageFile();
                         // Log.e("msg",data.getData().toString());
@@ -841,12 +710,9 @@ public class AddPostFragment extends Fragment
                         int h = bmp.getHeight();
                         if (h < 200)
                             h = 200;
-                        if (angle == 0)
-                        {
+                        if (angle == 0) {
                             scaledBmp = Bitmap.createScaledBitmap(bmp, w, h, true);
-                        }
-                        else
-                        {
+                        } else {
                             Matrix mat = new Matrix();
                             mat.postRotate(angle);
                             Bitmap correctBmp = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), mat, true);
@@ -854,25 +720,18 @@ public class AddPostFragment extends Fragment
                             Log.d("", "scaled");
                         }
 
-                        try
-                        {
+                        try {
                             FileOutputStream out = new FileOutputStream(picFile);
                             scaledBmp.compress(Bitmap.CompressFormat.PNG, 90, out);
                             mImageCaptureUri = Uri.fromFile(picFile);
                             out.close();
-                        }
-                        catch (Exception e)
-                        {
+                        } catch (Exception e) {
                             Log.e("Error_Touhid", e.toString());
                         }
-                    }
-                    catch (IOException e)
-                    {
+                    } catch (IOException e) {
                         Toast.makeText(activity, "IOException - Failed to load", Toast.LENGTH_SHORT).show();
                         Log.e("Camera", e.toString());
-                    }
-                    catch (OutOfMemoryError oom)
-                    {
+                    } catch (OutOfMemoryError oom) {
                         Toast.makeText(activity, "OOM error - Failed to load", Toast.LENGTH_SHORT).show();
                         Log.e("Camera", oom.toString());
                     }
@@ -881,12 +740,10 @@ public class AddPostFragment extends Fragment
                     break;
 
                 case GALLERY_REQ_CODE:
-                    try
-                    {
+                    try {
                         mImageCaptureUri = data.getData();
 
-                        if (getPath(mImageCaptureUri) != null)
-                        {
+                        if (getPath(mImageCaptureUri) != null) {
 
                             InputStream inputStream = activity.getContentResolver().openInputStream(mImageCaptureUri);
                             FileOutputStream fileOutputStream = new FileOutputStream(picFile);
@@ -896,17 +753,13 @@ public class AddPostFragment extends Fragment
 
                             Log.d(TAG, "Gal code: starting crop");
                             saveImage();
-                        }
-                        else
-                        {
+                        } else {
                             System.out.println("Picasa Image!");
                             loadPicasaImageFromGallery(mImageCaptureUri);
                             saveImage();
                         }
 
-                    }
-                    catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         Log.e(TAG, "Error while creating thr picture file", e);
                         if (picFile == null)
                             Log.i(TAG, "<<<<<<<<<<<<<<<<<< Pic file is null !! >>>>>>>>>>>>>>>>>");
@@ -916,26 +769,22 @@ public class AddPostFragment extends Fragment
         }
     }
 
-    private void saveImage()
-    {
+    private void saveImage() {
         scaledBmp = BitmapFactory.decodeFile(picFile.getPath());
         scaledBmp = Bitmap.createScaledBitmap(scaledBmp, 200, 200, true);
         setImageInTheView();
     }
 
-    private void setImageInTheView()
-    {
+    private void setImageInTheView() {
         llImageHolder.setVisibility(View.VISIBLE);
         isImageVisible = true;
         ImageView ivToPostimage = (ImageView) v.findViewById(R.id.ivToBePostedImage);
         ivToPostimage.setBackgroundResource(android.R.color.transparent);
-        if (scaledBmp == null)
-        {
+        if (scaledBmp == null) {
             if (picFile == null)
                 setImageFile();
             scaledBmp = decodeFile(picFile, 500);
-            if (scaledBmp == null)
-            {
+            if (scaledBmp == null) {
                 Log.e(TAG, "No image is found :o ... How dare you wanting to set it after removing it >:(");
                 return;
             }
@@ -950,25 +799,21 @@ public class AddPostFragment extends Fragment
     }
 
     @Override
-    public void onDestroy()
-    {
+    public void onDestroy() {
         super.onDestroy();
         if (pDialog != null && pDialog.isShowing())
             pDialog.dismiss();
     }
 
-    private void showAddHyperLinkDialog()
-    {
+    private void showAddHyperLinkDialog() {
         AlertDialog addLinkDialog = new AlertDialog.Builder(getActivity()).create();
         addLinkDialog.setMessage("Enter or paste a link below:");
 
         final EditText etLink = new EditText(getActivity());
         etLink.setHint("URL (string with http://)");
         addLinkDialog.setView(etLink);
-        addLinkDialog.setButton(BUTTON_POSITIVE, "Add Link", new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface dialog, int whichButton)
-            {
+        addLinkDialog.setButton(BUTTON_POSITIVE, "Add Link", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
                 postLink = etLink.getText().toString();
                 Log.d(TAG, "Link got: " + postLink);
                 addLink();
@@ -976,10 +821,8 @@ public class AddPostFragment extends Fragment
             }
         });
 
-        addLinkDialog.setButton(BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface dialog, int whichButton)
-            {
+        addLinkDialog.setButton(BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
                 dialog.dismiss();
             }
         });

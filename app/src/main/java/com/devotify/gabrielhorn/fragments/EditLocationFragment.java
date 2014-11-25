@@ -39,34 +39,28 @@ import java.util.List;
 /**
  * @author Touhid
  */
-public class EditLocationFragment extends Fragment
-{
+public class EditLocationFragment extends Fragment {
     private MapView mapView;
     private GoogleMap mapViewManager;
 
     private List<RetailLocation> locations = new ArrayList<>();
     private HashMap<RetailLocation, Marker> markerMap = new HashMap<>();
 
-    public static EditLocationFragment newInstance()
-    {
+    public static EditLocationFragment newInstance() {
         return new EditLocationFragment();
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rv = inflater.inflate(R.layout.frag_edit_location, container, false);
-        rv.findViewById(R.id.btnsaveEditLocation).setOnClickListener(new OnClickListener()
-        {
+        rv.findViewById(R.id.btnsaveEditLocation).setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 saveRetailLocations();
             }
         });
@@ -75,11 +69,9 @@ public class EditLocationFragment extends Fragment
         mapView.onCreate(savedInstanceState);
 
         mapViewManager = mapView.getMap();
-        mapViewManager.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback()
-        {
+        mapViewManager.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
             @Override
-            public void onMapLoaded()
-            {
+            public void onMapLoaded() {
                 MapsInitializer.initialize(getActivity().getApplicationContext());
                 getRetailLocations();
             }
@@ -89,23 +81,18 @@ public class EditLocationFragment extends Fragment
         return rv;
     }
 
-    public void getRetailLocations()
-    {
+    public void getRetailLocations() {
         ParseQuery<RetailLocation> query = ParseQuery.getQuery("RetailLocation");
         query.whereEqualTo("appCompany", LocalUser.getInstance().getParentCompany());
-        query.findInBackground(new FindCallback<RetailLocation>()
-        {
+        query.findInBackground(new FindCallback<RetailLocation>() {
             @Override
-            public void done(List<RetailLocation> retailLocations, ParseException e)
-            {
-                if (e == null)
-                {
+            public void done(List<RetailLocation> retailLocations, ParseException e) {
+                if (e == null) {
                     locations.clear();
                     locations.addAll(retailLocations);
 
                     LatLng centerLatLng = null;
-                    for (RetailLocation location : locations)
-                    {
+                    for (RetailLocation location : locations) {
                         centerLatLng = new LatLng(location.getLocation().getLatitude(), location.getLocation().getLongitude());
                         MarkerOptions options = new MarkerOptions();
                         options.position(centerLatLng);
@@ -121,20 +108,14 @@ public class EditLocationFragment extends Fragment
                         mapViewManager.addCircle(circleOptions);
                     }
 
-                    if (centerLatLng != null)
-                    {
+                    if (centerLatLng != null) {
                         CameraUpdate centerUpdate = CameraUpdateFactory.newLatLngZoom(centerLatLng, 13.0f);
                         mapViewManager.animateCamera(centerUpdate);
-                    }
-                    else
-                    {
-                        ParseGeoPoint.getCurrentLocationInBackground(10000, new LocationCallback()
-                        {
+                    } else {
+                        ParseGeoPoint.getCurrentLocationInBackground(10000, new LocationCallback() {
                             @Override
-                            public void done(ParseGeoPoint parseGeoPoint, ParseException e)
-                            {
-                                if (e == null)
-                                {
+                            public void done(ParseGeoPoint parseGeoPoint, ParseException e) {
+                                if (e == null) {
                                     LatLng centerLocation = new LatLng(parseGeoPoint.getLatitude(), parseGeoPoint.getLongitude());
                                     CameraUpdate centerUpdate = CameraUpdateFactory.newLatLngZoom(centerLocation, 13.0f);
                                     mapViewManager.animateCamera(centerUpdate);
@@ -142,9 +123,7 @@ public class EditLocationFragment extends Fragment
                             }
                         });
                     }
-                }
-                else
-                {
+                } else {
                     e.printStackTrace();
                 }
             }
@@ -152,33 +131,27 @@ public class EditLocationFragment extends Fragment
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
         mapView.onResume();
     }
 
     @Override
-    public void onPause()
-    {
+    public void onPause() {
         super.onPause();
         mapView.onPause();
     }
 
     @Override
-    public void onDestroy()
-    {
+    public void onDestroy() {
         mapView.onDestroy();
         super.onDestroy();
     }
 
-    public void saveRetailLocations()
-    {
-        for (RetailLocation location : locations)
-        {
+    public void saveRetailLocations() {
+        for (RetailLocation location : locations) {
             Marker attachedMarker = markerMap.get(location);
-            if (attachedMarker != null)
-            {
+            if (attachedMarker != null) {
                 LatLng position = attachedMarker.getPosition();
                 location.setLocation(new ParseGeoPoint(position.latitude, position.longitude));
             }

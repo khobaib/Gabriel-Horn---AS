@@ -17,28 +17,23 @@ import java.util.ArrayList;
  * @author Usama
  *         <p/>
  */
-public class BaseParseArrayAdapter<T extends ParseObject> extends ParseQueryAdapter<T>
-{
+public class BaseParseArrayAdapter<T extends ParseObject> extends ParseQueryAdapter<T> {
     private int rowLayoutResource;
 
-    public BaseParseArrayAdapter(Context context, QueryFactory query, int itemViewResource)
-    {
+    public BaseParseArrayAdapter(Context context, QueryFactory query, int itemViewResource) {
         super(context, query, itemViewResource);
         this.rowLayoutResource = itemViewResource;
     }
 
     @Override
-    public View getItemView(T object, View convertView, ViewGroup parent)
-    {
+    public View getItemView(T object, View convertView, ViewGroup parent) {
         View row = convertView;
-        if (row == null)
-        {
+        if (row == null) {
             row = LayoutInflater.from(getContext()).inflate(rowLayoutResource, parent, false);
 
             ViewHolder holder = new ViewHolder();
             ArrayList<View> childViews = getAllChildrenForRootView(row);
-            for (View view : childViews)
-            {
+            for (View view : childViews) {
                 holder.addView(view);
             }
 
@@ -49,30 +44,25 @@ public class BaseParseArrayAdapter<T extends ParseObject> extends ParseQueryAdap
         return row;
     }
 
-    protected void initView(ViewHolder holder, T data)
-    {
+    protected void initView(ViewHolder holder, T data) {
     }
 
-    public static ArrayList<View> getAllChildrenForRootView(View rootView)
-    {
-        try
-        {
+    public static ArrayList<View> getAllChildrenForRootView(View rootView) {
+        try {
             ViewGroup viewGroup = (ViewGroup) rootView;
 
             ArrayList<View> output = new ArrayList<View>();
             int childCount = viewGroup.getChildCount();
             output.add(viewGroup); // Keep track of views that have children
 
-            for (int i = 0; i < childCount; i++)
-            {
+            for (int i = 0; i < childCount; i++) {
                 View child = viewGroup.getChildAt(i);
                 ArrayList<View> viewsForChild = getAllChildrenForRootView(child);
                 output.addAll(viewsForChild);
             }
 
             return output;
-        }
-        catch (ClassCastException e) // View does not have any children
+        } catch (ClassCastException e) // View does not have any children
         {
             ArrayList<View> child = new ArrayList<View>();
             child.add(rootView);
@@ -80,13 +70,11 @@ public class BaseParseArrayAdapter<T extends ParseObject> extends ParseQueryAdap
         }
     }
 
-    public int getRowLayoutResource()
-    {
+    public int getRowLayoutResource() {
         return rowLayoutResource;
     }
 
-    public void setRowLayoutResource(int rowLayoutResource)
-    {
+    public void setRowLayoutResource(int rowLayoutResource) {
         this.rowLayoutResource = rowLayoutResource;
     }
 }

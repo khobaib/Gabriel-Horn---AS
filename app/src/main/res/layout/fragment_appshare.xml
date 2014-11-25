@@ -1,10 +1,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/rounded_login"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingBottom="10dp">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rounded_login"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="10dp">
 
     <ScrollView
         android:id="@+id/scrollView1"
@@ -24,7 +24,8 @@
                 android:layout_marginTop="10dp"
                 android:textSize="18dp"
                 android:text="@string/share_description"
-                android:layout_alignParentTop="true"/>
+                android:layout_alignParentTop="true" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -47,8 +48,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="20dp"
                 android:gravity="center_vertical|left"
-                android:text="click here for Android>>"
-                />
+                android:text="click here for Android>>" />
 
             <com.parse.ParseImageView
                 android:id="@+id/app_share_img"
@@ -57,7 +57,7 @@
                 android:layout_below="@+id/android_link_text_view"
                 android:scaleType="centerCrop"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp" />
 
         </RelativeLayout>
     </ScrollView>

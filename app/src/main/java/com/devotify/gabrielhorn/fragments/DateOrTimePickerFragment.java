@@ -23,8 +23,7 @@ import java.util.Calendar;
  */
 @SuppressLint("NewApi")
 public class DateOrTimePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener,
-        OnTimeSetListener
-{
+        OnTimeSetListener {
 
     public static final int DATE_PICKER = 0;
     public static final int TIME_PICKER = 1;
@@ -32,8 +31,7 @@ public class DateOrTimePickerFragment extends DialogFragment implements DatePick
     private OnDateOrTimSetListener onDateOrTimeSetListener;
     private int type = 0;
 
-    public static DateOrTimePickerFragment getInstance(OnDateOrTimSetListener oDoTSetListener, int type)
-    {
+    public static DateOrTimePickerFragment getInstance(OnDateOrTimSetListener oDoTSetListener, int type) {
         DateOrTimePickerFragment pickerFragment = new DateOrTimePickerFragment();
         pickerFragment.onDateOrTimeSetListener = oDoTSetListener;
         pickerFragment.type = type;
@@ -41,8 +39,7 @@ public class DateOrTimePickerFragment extends DialogFragment implements DatePick
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState)
-    {
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current date as the default date in the picker
         final Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
@@ -59,15 +56,13 @@ public class DateOrTimePickerFragment extends DialogFragment implements DatePick
     }
 
     @Override
-    public void onDateSet(DatePicker view, int year, int month, int day)
-    {
+    public void onDateSet(DatePicker view, int year, int month, int day) {
         // Do something with the date chosen by the user
         onDateOrTimeSetListener.dateOrTimeSet(year, month, day);
     }
 
     @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute)
-    {
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         onDateOrTimeSetListener.dateOrTimeSet(hourOfDay, minute, -1);
     }
 }

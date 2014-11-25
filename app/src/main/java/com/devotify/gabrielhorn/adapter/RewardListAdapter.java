@@ -11,15 +11,11 @@ import com.devotify.gabrielhorn.viewHelpers.ViewHolder;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
-public class RewardListAdapter extends BaseParseArrayAdapter<Reward>
-{
-    public RewardListAdapter(Context context, int itemViewResource)
-    {
-        super(context, new ParseQueryAdapter.QueryFactory()
-        {
+public class RewardListAdapter extends BaseParseArrayAdapter<Reward> {
+    public RewardListAdapter(Context context, int itemViewResource) {
+        super(context, new ParseQueryAdapter.QueryFactory() {
             @Override
-            public ParseQuery create()
-            {
+            public ParseQuery create() {
                 ParseQuery<Reward> query = ParseQuery.getQuery("Rewards");
                 query.whereEqualTo("appCompany", LocalUser.getInstance().getParentCompany());
                 query.addAscendingOrder("pointsNeeded");
@@ -29,8 +25,7 @@ public class RewardListAdapter extends BaseParseArrayAdapter<Reward>
     }
 
     @Override
-    protected void initView(ViewHolder holder, Reward data)
-    {
+    protected void initView(ViewHolder holder, Reward data) {
         TextView pointsNeeded = (TextView) holder.getView(R.id.reward_points_text_view);
         TextView rewardName = (TextView) holder.getView(R.id.reward_name_text_view);
 

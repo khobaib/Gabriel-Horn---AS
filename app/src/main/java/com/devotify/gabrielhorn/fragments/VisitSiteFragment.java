@@ -10,19 +10,16 @@ import android.webkit.WebView;
 import com.devotify.gabrielhorn.R;
 import com.devotify.gabrielhorn.model.LocalUser;
 
-public class VisitSiteFragment extends Fragment
-{
+public class VisitSiteFragment extends Fragment {
     private WebView vsWebView;
 
-    public static VisitSiteFragment newInstance()
-    {
+    public static VisitSiteFragment newInstance() {
         return new VisitSiteFragment();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.layout_tc_fragment, container, false);
         vsWebView = (WebView) v.findViewById(R.id.wv_tc);
         String url = LocalUser.getInstance().getParentCompany().getString("websiteUrl");

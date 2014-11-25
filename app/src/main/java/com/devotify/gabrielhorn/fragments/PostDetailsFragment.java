@@ -19,10 +19,8 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
 
-public class PostDetailsFragment extends Fragment
-{
-    public interface SpecificShareListener
-    {
+public class PostDetailsFragment extends Fragment {
+    public interface SpecificShareListener {
         public void onSpecificShare(String shareUrl);
     }
 
@@ -30,8 +28,7 @@ public class PostDetailsFragment extends Fragment
     private TextView tv_title, tv_message, postLinkTextView;
     private SpecificShareListener specificShareListener;
 
-    public static PostDetailsFragment newInstance(Post singleOfferDetails)
-    {
+    public static PostDetailsFragment newInstance(Post singleOfferDetails) {
         PostDetailsFragment f = new PostDetailsFragment();
         Bundle args = new Bundle();
         args.putSerializable("post", singleOfferDetails);
@@ -40,22 +37,19 @@ public class PostDetailsFragment extends Fragment
     }
 
     @Override
-    public void onAttach(Activity activity)
-    {
+    public void onAttach(Activity activity) {
         super.onAttach(activity);
         specificShareListener = (SpecificShareListener) activity;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.singleofferDetails = (Post) getArguments().get("post");
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_post_details, container, false);
         tv_title = (TextView) v.findViewById(R.id.tv_title);
@@ -68,14 +62,11 @@ public class PostDetailsFragment extends Fragment
 
         ParseImageView todoImage = (ParseImageView) v.findViewById(R.id.img_pic);
         ParseFile imageFile = singleofferDetails.getParseFile("image");
-        if (imageFile != null)
-        {
+        if (imageFile != null) {
             todoImage.setParseFile(imageFile);
-            todoImage.loadInBackground(new GetDataCallback()
-            {
+            todoImage.loadInBackground(new GetDataCallback() {
                 @Override
-                public void done(byte[] data, ParseException e)
-                {
+                public void done(byte[] data, ParseException e) {
                 }
             });
         }
@@ -85,10 +76,8 @@ public class PostDetailsFragment extends Fragment
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.action_share:
                 String specificShareUrl = LocalUser.getInstance().getParentCompany().getString("postShareBaseUrl") + singleofferDetails.getObjectId();
                 specificShareListener.onSpecificShare(specificShareUrl);

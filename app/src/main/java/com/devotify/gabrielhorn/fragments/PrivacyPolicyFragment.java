@@ -16,16 +16,13 @@ import com.devotify.gabrielhorn.utility.Utils;
 /**
  * @author Touhid
  */
-public class PrivacyPolicyFragment extends Fragment
-{
-    public static PrivacyPolicyFragment newInstance()
-    {
+public class PrivacyPolicyFragment extends Fragment {
+    public static PrivacyPolicyFragment newInstance() {
         return new PrivacyPolicyFragment();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.frag_privacy_terms, container, false);
 
         String appName = getString(R.string.app_name);

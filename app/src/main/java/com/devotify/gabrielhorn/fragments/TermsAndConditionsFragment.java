@@ -10,14 +10,12 @@ import android.webkit.WebView;
 import com.devotify.gabrielhorn.R;
 import com.devotify.gabrielhorn.utility.Utils;
 
-public class TermsAndConditionsFragment extends Fragment
-{
+public class TermsAndConditionsFragment extends Fragment {
     private WebView tcWebView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.layout_tc_fragment, container, false);
 
         String appName = getString(R.string.app_name);

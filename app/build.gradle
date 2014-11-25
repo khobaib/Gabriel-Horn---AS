@@ -8,7 +8,7 @@ android {
     compileSdkVersion 21
     buildToolsVersion "19.1"
     defaultConfig {
-        applicationId "com.devotify.gabrielhorn"
+        applicationId 'org.YBR.app'
         minSdkVersion 9
         targetSdkVersion 19
     }
@@ -21,6 +21,8 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
+    }
+    productFlavors {
     }
 }
 
