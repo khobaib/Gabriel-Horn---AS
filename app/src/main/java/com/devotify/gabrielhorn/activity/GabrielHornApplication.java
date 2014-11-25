@@ -13,7 +13,7 @@ import com.parse.SaveCallback;
 
 public class GabrielHornApplication extends Application
 {
-    public static final String CHANNEL_NAME = "PushGabrielHorn";
+    public static final String CHANNEL_NAME = "PushPhoenix";
     private static final String APP_ID = "b0iV7zeWFXFN0BcAd5gv3OjAYjWQXtbI5rsdJmU3", CLIENT_KEY = "UKSHdFci5UMlEmawuAfSPVEbBKGfVsy35B4K34C8";
 
     @Override
