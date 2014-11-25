@@ -1,0 +1,19 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light">
+        <item name="android:actionBarStyle">@style/AppActionBar</item>
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/AppActionBar</item>
+    </style>
+
+    <!-- ActionBar styles -->
+    <style name="AppActionBar"
+           parent="@style/Widget.AppCompat.Light.ActionBar">
+        <item name="android:background">@drawable/action_bar_background</item>
+
+        <item name="homeAsUpIndicator">@color/transparent</item>
+
+        <!-- Support library compatibility -->
+        <item name="background">@drawable/action_bar_background</item>
+    </style>
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="10dp"
+    android:shape="rectangle" >
+
+    <solid android:color="@color/black" />
+
+    <corners
+        android:radius="7dp"/>
+
+</shape><!-- From: file:/E:/WorkSpace/GabrielHornAndroid/app/src/main/res/drawable/rounded_black_bg.xml -->

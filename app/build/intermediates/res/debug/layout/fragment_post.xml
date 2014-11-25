@@ -1,0 +1,22 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/re_top_top"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#CCCCCC">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/post_pull_refresh_view">
+
+        <ListView
+            android:id="@+id/list_view_latest_offer"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:divider="#CCCCCC"
+            android:listSelector="@color/transparent"
+            android:dividerHeight="10dp"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</RelativeLayout><!-- From: file:/E:/WorkSpace/GabrielHornAndroid/app/src/main/res/layout/fragment_post.xml -->

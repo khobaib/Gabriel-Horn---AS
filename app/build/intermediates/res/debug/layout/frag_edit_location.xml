@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#dddddd"
+                android:orientation="vertical"
+                tools:ignore="HardcodedText">
+
+    <RelativeLayout
+        android:id="@+id/llMapHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_theme">
+
+        <Button
+            android:id="@+id/btnsaveEditLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@color/transparent"
+            android:gravity="center"
+            android:text="Save"
+            android:textColor="@color/white"/>
+    </RelativeLayout>
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/map_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/llMapHeader"/>
+
+</RelativeLayout><!-- From: file:/E:/WorkSpace/GabrielHornAndroid/app/src/main/res/layout/frag_edit_location.xml -->

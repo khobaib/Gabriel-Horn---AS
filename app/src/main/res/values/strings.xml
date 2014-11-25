@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Gabriel Horn</string>
+    <string name="agree_term">By clicking the submit button below, you are agreeing to our <u>Terms and Conditions</u> and our <u>Privacy Policy</u>.</string>
+    <string name="login_title">Earn rewards for your purchases!</string>
+    <string name="login_subtitle">Sign up to start earning rewards, or log in to see your My Reward Card.</string>
+    <string name="error_intro">"Please "</string>
+    <string name="error_blank_username">enter a username</string>
+    <string name="error_blank_email">enter an email</string>
+    <string name="error_blank_password">enter a password</string>
+    <string name="error_mismatched_passwords">enter the same password twice</string>
+    <string name="error_join">", and "</string>
+    <string name="error_end">.</string>
+    <string name="google_maps_api_key">AIzaSyCzwPmE2NSkCWo06oUKGNix6I_MjW31qj4</string>
+    <string name="expired">Expired</string>
+    <string name="news_title">News</string>
+    <string name="rewards_title">Rewards</string>
+    <string name="share_title">Share</string>
+    <string name="add_post_title">Add Post</string>
+    <string name="more_title">More</string>
+    <string name="forgot_pass"><u>Forgot Password?</u></string>
+    <string name="forgot_password_email_hint">Email to Send Reset Request</string>
+
+    <string name="iphone_link_caption">Click here for iPhone</string>
+    <string name="android_link_caption">Click here for Android</string>
+    <string name="share_name">Share 108 App.</string>
+    <string name="share_description">I would love to share the 108 Contemparary App with you. Stay up to date with exclusive releases, events and rewards</string>
+    <string name="android_appshare_url">http://www.android.com</string>
+    <string name="iphone_appshare_url">http://www.apple.com</string>
+
+    <!--<string name="fb_app_id">703222023088631</string>-->
+    <string name="fb_app_id">365256833636996</string>
+</resources>

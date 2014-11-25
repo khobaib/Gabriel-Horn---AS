@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#1D1D1D"
+                tools:ignore="HardcodedText">
+
+    <LinearLayout
+        android:id="@+id/ll_reward_point"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/bg_total_reward_point"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:id="@+id/wr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            tools:ignore="UselessParent,UseCompoundDrawables">
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/icon_star"
+                tools:ignore="ContentDescription"/>
+
+            <TextView
+                android:id="@+id/user_points_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/white"
+                android:textSize="80sp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnScanForStar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:background="@drawable/btn_border"
+        android:padding="15dp"
+        android:text="+ Scan for Star"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:layout_below="@+id/ll_reward_point"/>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnScanForStar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:text="Rewards"
+        android:textColor="@color/white"
+        android:textSize="25sp"/>
+
+    <ListView
+        android:id="@+id/rewards_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/textView3"
+        android:layout_marginTop="5dp"
+        android:divider="@color/white"
+        android:dividerHeight="2px"
+        android:layout_alignParentBottom="true">
+    </ListView>
+</RelativeLayout>
+<!-- From: file:/E:/WorkSpace/GabrielHornAndroid/app/src/main/res/layout/fragment_rewards.xml -->

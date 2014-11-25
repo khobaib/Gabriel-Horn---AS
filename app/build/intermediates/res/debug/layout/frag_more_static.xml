@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#dddddd"
+    android:orientation="vertical"
+    tools:ignore="HardcodedText" >
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tvMyRewardsMore"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/more_list_selector"
+                android:drawableLeft="@drawable/icon_reward"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:padding="15dp"
+                android:paddingLeft="15dp"
+                android:text="My Rewards Card"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black"
+                android:layout_marginTop="15dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#999999" />
+
+            <TextView
+                android:id="@+id/tvLogOutMore"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/more_list_selector"
+                android:drawableLeft="@drawable/icon_logout"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:padding="15dp"
+                android:paddingLeft="15dp"
+                android:text="Log out"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#999999" />
+
+            <TextView
+                android:id="@+id/tvEditLocationMore"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/more_list_selector"
+                android:drawableLeft="@drawable/icon_reward"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:padding="15dp"
+                android:paddingLeft="15dp"
+                android:text="Edit Store locations"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#999999" />
+
+            <TextView
+                android:id="@+id/tvCallUsMore"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/more_list_selector"
+                android:drawableLeft="@drawable/icon_phone"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:padding="15dp"
+                android:paddingLeft="15dp"
+                android:text="Call Us"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black"
+                android:layout_marginTop="15dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#999999" />
+
+            <TextView
+                android:id="@+id/tvEmailUsMore"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/more_list_selector"
+                android:drawableLeft="@drawable/icon_email"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:padding="15dp"
+                android:paddingLeft="15dp"
+                android:text="Email Us"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#999999" />
+
+            <TextView
+                android:id="@+id/tvVisitWebMore"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/more_list_selector"
+                android:drawableLeft="@drawable/icon_browser"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:padding="15dp"
+                android:paddingLeft="15dp"
+                android:text="Visit our Website"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#999999" />
+
+            <TextView
+                android:id="@+id/tvShareAppMore"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/more_list_selector"
+                android:drawableLeft="@drawable/icon_share"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:padding="15dp"
+                android:paddingLeft="15dp"
+                android:text="Share our app"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#999999" />
+
+            <TextView
+                android:id="@+id/tvAboutAppMore"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/more_list_selector"
+                android:gravity="center_vertical"
+                android:padding="15dp"
+                android:paddingLeft="25dp"
+                android:text="About this app"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black"
+                android:layout_marginTop="15dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#999999" />
+
+            <TextView
+                android:id="@+id/tvTermsConditionMore"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/more_list_selector"
+                android:gravity="center_vertical"
+                android:padding="15dp"
+                android:paddingLeft="25dp"
+                android:text="Terms and Conditions"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#999999" />
+
+            <TextView
+                android:id="@+id/tvPrivacyPolicyMore"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/more_list_selector"
+                android:gravity="center_vertical"
+                android:padding="15dp"
+                android:paddingLeft="25dp"
+                android:text="Privacy Policy"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#999999" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout><!-- From: file:/E:/WorkSpace/GabrielHornAndroid/app/src/main/res/layout/frag_more_static.xml -->
