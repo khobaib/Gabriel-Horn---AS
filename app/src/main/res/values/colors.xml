@@ -10,10 +10,10 @@
     <color name="transparent">#00000000</color>
     <color name="gray_light">#dddddd</color>
     <color name="gray_darker">#ededed</color>
-    <color name="flat_blue_button_color">#604F46</color>
-    <color name="flat_blue_button_pressed_color">#402E24</color>
+    <color name="flat_blue_button_color">#0082F8</color>
+    <color name="flat_blue_button_pressed_color">#0060E6</color>
     <color name="divider_color">#AFAFAF</color>
-    <color name="primary_color">#604F46</color><!-- #0D6394 -->
+    <color name="primary_color">#ed6b28</color><!-- #0D6394 -->
     <color name="secondary_color">#808080</color>
     <color name="bottom_bar_rewards_color">#CC1D1D1D</color>
     <color name="action_bar_color">#FFFFFF</color>
