@@ -6,17 +6,11 @@ repositories {
 
 android {
     signingConfigs {
-        config {
-            keyAlias 'GabrielHorn'
-            keyPassword 'bAfru6uw'
-            storeFile file('E:/WorkSpace/GabrielHornAndroid/global_keystore.jks')
-            storePassword 'bAfru6uw'
-        }
     }
     compileSdkVersion 21
     buildToolsVersion "19.1"
     defaultConfig {
-        applicationId 'org.Legends.app'
+        applicationId 'org.Nordaggios.app'
         minSdkVersion 9
         targetSdkVersion 19
     }
@@ -24,10 +18,8 @@ android {
         release {
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-            signingConfig signingConfigs.config
         }
         debug {
-            signingConfig signingConfigs.config
         }
     }
     compileOptions {
