@@ -9,7 +9,7 @@
     <uses-sdk android:minSdkVersion="8" />
 
     <application android:label="@string/app_name">
-        <activity android:name="ZBarScannerActivity"
+        <activity android:name="org.dm.zbar.android.scanner.ZBarScannerActivity"
                   android:screenOrientation="landscape"
                   android:label="@string/app_name" />
     </application>
