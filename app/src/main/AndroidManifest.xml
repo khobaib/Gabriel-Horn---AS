@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="org.TheFurShop.app"
+          package="org.whiteFlag.app"
           android:versionCode="9"
           android:versionName="1.1">
 
@@ -9,7 +9,7 @@
         android:targetSdkVersion="19"/>
 
     <permission
-        android:name="org.TheFurShop.app.permission.MAPS_RECEIVE"
+        android:name="org.whiteFlag.app.permission.MAPS_RECEIVE"
         android:protectionLevel="signature"/>
 
     <uses-feature
@@ -19,7 +19,7 @@
         android:name="android.hardware.camera"
         android:required="true"/>
 
-    <uses-permission android:name="org.TheFurShop.app.permission.MAPS_RECEIVE"/>
+    <uses-permission android:name="org.whiteFlag.app.permission.MAPS_RECEIVE"/>
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
@@ -35,21 +35,21 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
 
     <permission
-        android:name="org.TheFurShop.app.permission.C2D_MESSAGE"
+        android:name="org.whiteFlag.app.permission.C2D_MESSAGE"
         android:protectionLevel="signature"/>
 
-    <uses-permission android:name="org.TheFurShop.app.permission.C2D_MESSAGE"/>
+    <uses-permission android:name="org.whiteFlag.app.permission.C2D_MESSAGE"/>
     <uses-permission android:name="android.permission.CALL_PHONE"/>
 
     <application
-        android:name="org.TheFurShop.app.activity.GabrielHornApplication"
+        android:name="org.whiteFlag.app.activity.GabrielHornApplication"
         android:allowBackup="true"
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
 
         <activity
-            android:name="org.TheFurShop.app.activity.MainActivity"
+            android:name="org.whiteFlag.app.activity.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
@@ -72,7 +72,7 @@
             android:value="@string/google_maps_api_key"/>
 
         <receiver
-            android:name="org.TheFurShop.app.activity.LocationBootReceiver">
+            android:name="org.whiteFlag.app.activity.LocationBootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"></action>
             </intent-filter>
@@ -93,7 +93,7 @@
                 <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
 
-                <category android:name="org.TheFurShop.app"/>
+                <category android:name="org.whiteFlag.app"/>
             </intent-filter>
         </receiver>
         <receiver
@@ -107,7 +107,7 @@
         </receiver>
 
         <service
-            android:name="org.TheFurShop.app.activity.BackgroundNotificationService"
+            android:name="org.whiteFlag.app.activity.BackgroundNotificationService"
             android:exported="false"/>
     </application>
 </manifest>
