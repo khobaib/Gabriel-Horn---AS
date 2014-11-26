@@ -117,22 +117,72 @@ public class LoginFragment extends Fragment implements RadioGroup.OnCheckedChang
         pDialog = Utils.createProgressDialog(getActivity());
         pDialog.show();
 
-        final ParseUser user = new ParseUser();
-        user.setEmail(etEmail.getText().toString().trim());
-        user.setUsername(etEmail.getText().toString().toString());
-        user.setPassword(etPassword.getText().toString());
-        user.put("appCompany", LocalUser.getInstance().getParentCompany());
-        user.put("fullName", etFirstName.getText().toString() + " " + etLastName.getText().toString());
-        user.signUpInBackground(new SignUpCallback()
+//        final ParseUser user = new ParseUser();
+//        user.setEmail(etEmail.getText().toString().trim());
+//        user.setUsername(etEmail.getText().toString().toString());
+//        user.setPassword(etPassword.getText().toString());
+//        user.put("appCompany", LocalUser.getInstance().getParentCompany());
+//        user.put("fullName", etFirstName.getText().toString() + " " + etLastName.getText().toString());
+//        user.signUpInBackground(new SignUpCallback()
+        final String username = etEmail.getText().toString().trim();
+        final String password = etPassword.getText().toString();
+        ParseUser.logInInBackground(username, password, new LogInCallback() // Try to log the user in if they've used our app before
         {
             @Override
-            public void done(ParseException e)
+            public void done(ParseUser parseUser, ParseException e)
+            {
+                if (e != null) // Need to create a new user
+                {
+                    final ParseUser user = new ParseUser();
+                    user.setEmail(username);
+                    user.setUsername(username);
+                    user.setPassword(password);
+                    user.put("appCompany", LocalUser.getInstance().getParentCompany());
+                    user.put("fullName", etFirstName.getText().toString() + " " + etLastName.getText().toString());
+                    user.signUpInBackground(new SignUpCallback()
+                    {
+                        @Override
+                        public void done(ParseException e)
+                        {
+                            if (getActivity() != null)
+                            {
+                                pDialog.dismiss();
+                                if (e == null)
+                                {
+                                    updateUserData();
+                                }
+                                else
+                                {
+                                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    if (getActivity() != null)
+                        pDialog.dismiss();
+                    updateUserData();
+                }
+            }
+        });
+    }
+    public void updateUserData()
+    {
+        ParseQuery<ParseObject> userDataQuery = new ParseQuery<ParseObject>("UserData");
+        userDataQuery.whereEqualTo("user", ParseUser.getCurrentUser());
+        userDataQuery.whereEqualTo("appParentCompany", LocalUser.getInstance().getParentCompany());
+        userDataQuery.getFirstInBackground(new GetCallback<ParseObject>()
+        {
+            @Override
+            public void done(ParseObject parseObject, ParseException e)
             {
                 pDialog.dismiss();
-                if (e == null)
+                if (parseObject == null)
                 {
                     ParseObject userData = new ParseObject("UserData");
-                    userData.put("user", user);
+                    userData.put("user", ParseUser.getCurrentUser());
                     userData.put("appParentCompany", LocalUser.getInstance().getParentCompany());
                     userData.put("rewardPoints", new Integer(0));
                     userData.saveInBackground(new SaveCallback()
@@ -140,7 +190,12 @@ public class LoginFragment extends Fragment implements RadioGroup.OnCheckedChang
                         @Override
                         public void done(ParseException e)
                         {
-                            if (e != null)
+                            if (e == null)
+                            {
+                                if (getActivity() != null)
+                                    onUserSignedIn();
+                            }
+                            else
                             {
                                 e.printStackTrace();
                             }
@@ -149,7 +204,7 @@ public class LoginFragment extends Fragment implements RadioGroup.OnCheckedChang
                 }
                 else
                 {
-                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                    onUserSignedIn();
                 }
             }
         });
@@ -201,48 +256,7 @@ public class LoginFragment extends Fragment implements RadioGroup.OnCheckedChang
                     user.getRelation("parentCompanies").add(LocalUser.getInstance().getParentCompany());
                     user.saveInBackground();
 
-                    // Find the user data for this user
-                    ParseQuery<ParseObject> userDataQuery = new ParseQuery<ParseObject>("UserData");
-                    userDataQuery.whereEqualTo("user", user);
-                    userDataQuery.getFirstInBackground(new GetCallback<ParseObject>()
-                    {
-                        @Override
-                        public void done(ParseObject parseObject, ParseException e)
-                        {
-                            if (e == null)
-                            {
-                                if (getActivity() != null)
-                                {
-                                    if (pDialog.isShowing())
-                                        pDialog.dismiss();
-                                    onUserSignedIn();
-                                }
-                            }
-                            else
-                            {
-                                // User data is not present because the user is updating his/her app
-                                ParseObject userData = new ParseObject("UserData");
-                                userData.put("user", user);
-                                userData.put("appParentCompany", LocalUser.getInstance().getParentCompany());
-                                userData.put("rewardPoints", Integer.valueOf(0));
-                                userData.saveInBackground(new SaveCallback()
-                                {
-                                    @Override
-                                    public void done(ParseException e)
-                                    {
-                                        if (e == null)
-                                        {
-                                            onUserSignedIn();
-                                        }
-                                        else
-                                        {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                    });
+                    updateUserData();
                 }
                 else
                 {
