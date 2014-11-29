@@ -117,20 +117,25 @@ public class RewardsFragment extends Fragment implements OnItemClickListener, Ac
         return pm.hasSystemFeature(PackageManager.FEATURE_CAMERA);
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == ZBAR_QR_SCANNER_REQUEST) {
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (resultCode == Activity.RESULT_OK && getActivity() != null)
+        {
+            if (requestCode == ZBAR_QR_SCANNER_REQUEST)
+            {
                 final ProgressDialog dialog = ProgressDialog.show(getActivity(), "Loading", "Checking reward...");
 
                 String contents = data.getStringExtra(ZBarConstants.SCAN_RESULT);
-
-                ParseQuery<ParseObject> locationParentCompanyCheckQuery = new ParseQuery<ParseObject>("LocationPin");
+                ParseQuery<ParseObject> locationParentCompanyCheckQuery = new ParseQuery<ParseObject>("RetailLocation");
                 locationParentCompanyCheckQuery.whereEqualTo("appCompany", LocalUser.getInstance().getParentCompany());
 
                 ParseQuery<ParseObject> qrCodequery = ParseQuery.getQuery(Constants.OBJECT_QRCODE);
                 qrCodequery.whereMatchesQuery("location", locationParentCompanyCheckQuery);
+                qrCodequery.whereEqualTo("objectId", contents);
                 qrCodequery.include("location");
-                qrCodequery.getInBackground(contents, new GetCallback<ParseObject>() {
+                qrCodequery.getFirstInBackground(new GetCallback<ParseObject>()
+                {
                     @Override
                     public void done(final ParseObject qrCodeObject, ParseException e) {
                         if (getActivity() != null) {
