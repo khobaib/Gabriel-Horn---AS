@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.devotify.gabrielhorn"
+          package="org.emergespa.app"
           android:versionCode="9"
           android:versionName="1.1">
 
@@ -9,7 +9,7 @@
         android:targetSdkVersion="19"/>
 
     <permission
-        android:name="com.devotify.gabrielhorn.permission.MAPS_RECEIVE"
+        android:name="org.emergespa.app.permission.MAPS_RECEIVE"
         android:protectionLevel="signature"/>
 
     <uses-feature
@@ -19,7 +19,7 @@
         android:name="android.hardware.camera"
         android:required="true"/>
 
-    <uses-permission android:name="com.devotify.gabrielhorn.permission.MAPS_RECEIVE"/>
+    <uses-permission android:name="org.emergespa.app.permission.MAPS_RECEIVE"/>
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
@@ -35,21 +35,21 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
 
     <permission
-        android:name="com.devotify.gabrielhorn.permission.C2D_MESSAGE"
+        android:name="org.emergespa.app.permission.C2D_MESSAGE"
         android:protectionLevel="signature"/>
 
-    <uses-permission android:name="com.devotify.gabrielhorn.permission.C2D_MESSAGE"/>
+    <uses-permission android:name="org.emergespa.app.permission.C2D_MESSAGE"/>
     <uses-permission android:name="android.permission.CALL_PHONE"/>
 
     <application
-        android:name=".activity.GabrielHornApplication"
+        android:name="org.emergespa.app.activity.GabrielHornApplication"
         android:allowBackup="true"
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".activity.MainActivity"
+            android:name="org.emergespa.app.activity.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
@@ -93,7 +93,7 @@
                 <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
 
-                <category android:name="com.devotify.gabrielhorn"/>
+                <category android:name="org.emergespa.app"/>
             </intent-filter>
         </receiver>
         <receiver
