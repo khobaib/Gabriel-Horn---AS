@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Gabriel Horn</string>
+    <string name="app_name">The Nest on Cherry Street App</string>
     <string name="agree_term">By clicking the submit button below, you are agreeing to our <u>Terms and Conditions</u> and our <u>Privacy Policy</u>.</string>
     <string name="login_title">Earn rewards for your purchases!</string>
     <string name="login_subtitle">Sign up to start earning rewards, or log in to see your My Reward Card.</string>
