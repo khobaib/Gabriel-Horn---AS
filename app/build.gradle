@@ -8,7 +8,7 @@ android {
     compileSdkVersion 21
     buildToolsVersion "19.1"
     defaultConfig {
-        applicationId "com.devotify.gabrielhorn"
+        applicationId "org.foolishthings.app"
         minSdkVersion 9
         targetSdkVersion 19
     }
